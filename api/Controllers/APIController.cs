@@ -39,24 +39,7 @@ namespace api.Controllers
         internal bool verifyKey(string apikey)
         {
 
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(2048);
-            string keyinfo = rsa.ToXmlString(true);
-
-            using (var context = new DataBaseDataContext())
-            {
-                string clientIP = GetClientIp(Request);
-
-                if (clientIP == "127.0.0.1")
-                {
-                    return true;
-                }
-
-                var isIPAllowed = (from ev in context.KeyRestrictions
-                                   where ev.Allowed == true && ev.ApiKey.key == apikey.ToLower() && ev.IPAddress == clientIP
-                                   select ev).Count() > 0;
-
-                return isIPAllowed;
-            }
+            return true;
         }
 
         /// <summary>

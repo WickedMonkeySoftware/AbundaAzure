@@ -185,9 +185,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBase.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Filters\CustomHttpsAttribute.cs" />
+    <Compile Include="Filters\IPHostValidationAttribute.cs" />
+    <Compile Include="Filters\TokenValidationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthorizedAffiliates.cs" />
+    <Compile Include="Models\AuthorizedIP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RSAClass.cs" />
     <Compile Include="WebRole.cs" />
@@ -312,7 +317,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

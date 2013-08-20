@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using api.Filters;
 
 namespace api
 {
@@ -17,6 +18,11 @@ namespace api
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+
+            var config = GlobalConfiguration.Configuration;
+            config.Filters.Add(new TokenValidationAttribute());
+            config.Filters.Add(new IPHostValidationAttribute());
+            //config.Filters.Add(new CustomHttpsAttribute());
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
