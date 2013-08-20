@@ -36,6 +36,11 @@ namespace api.Controllers
             return "action = " + action + " - product_code: " + product_code + " (" + qty + ")";
         }
 
+        /// <summary>
+        /// Creates an error message response
+        /// </summary>
+        /// <param name="message">The message to return</param>
+        /// <returns>An error message response</returns>
         private object error(string message)
         {
             return new { error = message };
