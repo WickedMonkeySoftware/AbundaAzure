@@ -6,12 +6,38 @@ using System.Web.Http;
 using System.Web.Http.Filters;
 using System.Web.Http.Controllers;
 using api.Models;
+using System.ServiceModel.Channels;
 
 namespace api.Filters
 {
     public class TokenValidationAttribute : ActionFilterAttribute
     {
+        private string getIP(HttpActionContext actionContext)
+        {
+            string ip = "";
+
+            if (actionContext.Request.Properties.ContainsKey("MS_HttpContext"))
+            {
+                var context = actionContext.Request.Properties["MS_HttpContext"] as System.Web.HttpContextWrapper;
+                ip = context.Request.UserHostAddress;
+            }
+            else if (actionContext.Request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
+            {
+                RemoteEndpointMessageProperty prop;
+                prop = (RemoteEndpointMessageProperty)actionContext.Request.Properties[RemoteEndpointMessageProperty.Name];
+                ip = prop.Address;
+            }
+
+            return ip;
+        }
+
         public override void OnActionExecuting(HttpActionContext actionContext)
+        {
+            string ip = getIP(actionContext);
+            ValidateToken(actionContext, ip);
+        }
+
+        private void ValidateToken(HttpActionContext actionContext, string ip)
         {
             string token;
 
@@ -27,7 +53,20 @@ namespace api.Filters
 
             try
             {
-                AuthorizedAffiliates.Keys.First(x => x.key == RSAClass.Decrypt(token));
+                bool allowed = false;
+
+                using (var context = new DataBaseDataContext())
+                {
+                    allowed = (from ev in context.KeyRestrictions
+                               where ev.ApiKey.key == RSAClass.Decrypt(token) && ev.Allowed == true && (ev.IPAddress == ip || ev.IPAddress == "*")
+                               select ev).Count() > 0;
+                }
+
+                if (!allowed)
+                {
+                    actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden) { Content = new StringContent("Unauthorized IP Address") };
+                }
+
                 base.OnActionExecuting(actionContext);
             }
             catch (Exception)

@@ -21,8 +21,7 @@ namespace api
 
             var config = GlobalConfiguration.Configuration;
             config.Filters.Add(new TokenValidationAttribute());
-            config.Filters.Add(new IPHostValidationAttribute());
-            //config.Filters.Add(new CustomHttpsAttribute());
+            config.Filters.Add(new CustomHttpsAttribute());
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

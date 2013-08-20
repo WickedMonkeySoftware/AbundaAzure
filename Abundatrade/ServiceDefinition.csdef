@@ -4,15 +4,20 @@
     <Sites>
       <Site name="Web">
         <Bindings>
-          <Binding name="Endpoint1" endpointName="Endpoint1" />
+          <Binding name="https" endpointName="https"/>
         </Bindings>
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="80" />
+      <InputEndpoint name="https" protocol="https" port="443" certificate="apicert"/>
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
+      <Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />
     </Imports>
+    <Certificates>
+      <Certificate name="apicert" storeLocation="LocalMachine" storeName="My"/>
+    </Certificates>
   </WebRole>
 </ServiceDefinition>
