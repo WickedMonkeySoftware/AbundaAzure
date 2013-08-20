@@ -13,6 +13,35 @@ namespace api.Controllers
     public class ItemController : ApiController
     {
         /// <summary>
+        /// Executes an action
+        /// </summary>
+        /// <param name="action">The action to execute</param>
+        /// <param name="product_code">The upc/isbn to perform the action to</param>
+        /// <param name="qty">The qty to apply it</param>
+        /// <returns>The answer to the question</returns>
+        private object execute(string action, string product_code, int qty)
+        {
+            switch (action)
+            {
+                case "delete":
+                    break;
+                case "add":
+                    break;
+                case "modify":
+                    break;
+                default:
+                    return error("Invalid action performed");
+            }
+
+            return "action = " + action + " - product_code: " + product_code + " (" + qty + ")";
+        }
+
+        private object error(string message)
+        {
+            return new { error = message };
+        }
+
+        /// <summary>
         /// Performs an action on an item
         /// </summary>
         /// <param name="apikey">The api key for the site</param>
@@ -22,17 +51,7 @@ namespace api.Controllers
         /// <returns>The result of the action</returns>
         public object Post([FromBody] string apikey, [FromBody] string action, [FromBody] string product_code, [FromBody] int qty)
         {
-            switch (action)
-            {
-                case "delete":
-                    break;
-                case "add":
-                    break;
-                default:
-                    return new { error = "Invalid action performed" };
-            }
-
-            return "action = " + action + " - product_code: " + product_code + " (" + qty + ")";
+            return Get(apikey, action, product_code, qty);
         }
 
         /// <summary>
@@ -45,17 +64,15 @@ namespace api.Controllers
         /// <returns>The result of the action</returns>
         public object Get(string apikey, string action, string product_code, int qty)
         {
-            switch (action)
+            APIController api = new APIController();
+            bool isVerified = api.verifyKey(apikey);
+
+            if (isVerified)
             {
-                case "delete":
-                    break;
-                case "add":
-                    break;
-                default:
-                    return new { error = "Invalid action performed" };
+                return execute(action, product_code, qty);
             }
 
-            return "action = " + action + " - product_code: " + product_code + " (" + qty + ")";
+            return error("Invalid API Key usage");
         }
     }
 }
