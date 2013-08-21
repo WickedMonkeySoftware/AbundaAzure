@@ -8,6 +8,48 @@ using Microsoft.WindowsAzure;
 
 namespace api.Models
 {
+    public class PriceType
+    {
+        public decimal LandedPrice;
+        public decimal Shipping;
+        public decimal ListPrice;
+    }
+
+    public enum TriBool
+    {
+        False = 0,
+        True = 1,
+        Unknown = -1
+    }
+
+    public class ConditionList
+    {
+        public string Condition { get; set; }
+        public string SubCondition { get; set; }
+        public PriceType Price { get; set; }
+        public decimal Count { get; set; }
+    }
+
+    public class OfferListing
+    {
+        public decimal NumberOfferListings { get; set; }
+        public decimal SellerFeedbackCount { get; set; }
+        public PriceType Price { get; set; }
+        public TriBool MultipleOffersAtPrice { get; set; }
+        public string Condition { get; set; }
+        public string SubCondition { get; set; }
+        public string Fullfillment { get; set; }
+        public TriBool ShipsDomestically { get; set; }
+        public string ShippingTime { get; set; }
+        public string PositiveFeedbackSetting { get; set; }
+    }
+
+    public class SalesRank
+    {
+        public string Category { get; set; }
+        public decimal Rank { get; set; }
+    }
+
     public class AmazonProduct : TableEntity
     {
         public AmazonProduct(string code, string asin)
@@ -22,7 +64,24 @@ namespace api.Models
 
         internal bool _ready;
 
-        public Dictionary<string, decimal> SalesRanks
+        #region Lowest Offer Listings
+
+        public bool AllOfferListingsUsed { get; set; }
+        public List<OfferListing> LowestOfferListing { get; set; }
+
+        #endregion
+
+        #region Competitive Pricing
+
+        public List<ConditionList> CompetivePrices { get; set; }
+        public List<ConditionList> OfferListingCount { get; set; }
+        public decimal TradeInValue { get; set; }
+
+        #endregion
+
+        #region GetMatchingID
+
+        public List<SalesRank> SalesRanks
         {
             get;
             set;
@@ -66,5 +125,7 @@ namespace api.Models
                 this.PartitionKey = value;
             }
         }
+
+        #endregion
     }
 }

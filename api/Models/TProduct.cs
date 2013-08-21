@@ -34,6 +34,8 @@ namespace api.Models
         private string secretKey;
         private string accessKey;
 
+        MarketplaceWebServiceProducts.MarketplaceWebServiceProductsClient amz;
+
         /// <summary>
         /// The public facing data to send
         /// </summary>
@@ -74,15 +76,18 @@ namespace api.Models
 
             var amzResults = PerformAmazonLookup();
 
-            //todo: figure out the real product here
-
             if (amzResults.Count == 0)
             {
                 CalculatorView = new { error = "Unknown Item, double check your search" };
                 return;
             }
 
-            //todo: finish looking up the real product
+            //todo: get the real product
+            var keepProduct = amzResults[0];
+
+            PerformAmazonCompetivePricing(ref keepProduct);
+            PerformLowestOfferListing(ref keepProduct, "Used", false);
+            PerformLowestOfferListing(ref keepProduct, "New", false);
 
             //todo: save data in cache
 
@@ -105,6 +110,281 @@ namespace api.Models
             };
 
             CalculatorView.row.Add(new { testrow = "data" });
+        }
+
+        public void PerformLowestOfferListing(ref AmazonProduct product, string condition, bool excludeSelf)
+        {
+            var request = new MarketplaceWebServiceProducts.Model.GetLowestOfferListingsForASINRequest();
+            request.ASINList = new MarketplaceWebServiceProducts.Model.ASINListType();
+            request.ASINList.ASIN = new List<string>();
+            request.ASINList.ASIN.Add(product.ASIN);
+            request.ExcludeMe = excludeSelf;
+            request.ItemCondition = condition;
+            request.MarketplaceId = marketplaceID;
+            request.SellerId = merchantID;
+
+            var response = amz.GetLowestOfferListingsForASIN(request);
+
+            product.LowestOfferListing = new List<OfferListing>();
+
+            if (response.IsSetGetLowestOfferListingsForASINResult())
+            {
+                var results = response.GetLowestOfferListingsForASINResult;
+
+                foreach (var result in results)
+                {
+                    if (result.IsSetAllOfferListingsConsidered())
+                    {
+                        product.AllOfferListingsUsed = true;
+                    }
+
+                    if (result.IsSetProduct())
+                    {
+                        var prodCap = result.Product;
+
+                        if (prodCap.IsSetLowestOfferListings())
+                        {
+                            var lowestCap = prodCap.LowestOfferListings;
+
+                            if (lowestCap.IsSetLowestOfferListing())
+                            {
+                                var lowests = lowestCap.LowestOfferListing;
+
+                                foreach (var lowest in lowests)
+                                {
+                                    var l = new OfferListing();
+
+                                    if (lowest.IsSetMultipleOffersAtLowestPrice())
+                                    {
+                                        switch (lowest.MultipleOffersAtLowestPrice)
+                                        {
+                                            case "True":
+                                                l.MultipleOffersAtPrice = TriBool.True;
+                                                break;
+                                            case "False":
+                                                l.MultipleOffersAtPrice = TriBool.False;
+                                                break;
+                                            default:
+                                                l.MultipleOffersAtPrice = TriBool.Unknown;
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        l.MultipleOffersAtPrice = TriBool.False;
+                                    }
+
+                                    if (lowest.IsSetNumberOfOfferListingsConsidered())
+                                    {
+                                        var number = lowest.NumberOfOfferListingsConsidered;
+
+                                        l.NumberOfferListings = number;
+                                    }
+
+                                    if (lowest.IsSetPrice())
+                                    {
+                                        var price = lowest.Price;
+                                        l.Price = new PriceType() { LandedPrice = price.LandedPrice.Amount, ListPrice = price.ListingPrice.Amount, Shipping = price.Shipping.Amount };
+                                    }
+
+                                    if (lowest.IsSetQualifiers())
+                                    {
+                                        var quals = lowest.Qualifiers;
+
+                                        if (quals.IsSetFulfillmentChannel())
+                                        {
+                                            l.Fullfillment = quals.FulfillmentChannel;
+                                        }
+
+                                        if (quals.IsSetItemCondition())
+                                        {
+                                            l.Condition = quals.ItemCondition;
+                                        }
+
+                                        if (quals.IsSetItemSubcondition())
+                                        {
+                                            l.SubCondition = quals.ItemSubcondition;
+                                        }
+
+                                        if (quals.IsSetSellerPositiveFeedbackRating())
+                                        {
+                                            l.PositiveFeedbackSetting = quals.SellerPositiveFeedbackRating;
+                                        }
+
+                                        if (quals.IsSetShippingTime())
+                                        {
+                                            var ShippingTime = quals.ShippingTime;
+
+                                            if (ShippingTime.IsSetMax())
+                                            {
+                                                l.ShippingTime = ShippingTime.Max;
+                                            }
+                                        }
+
+                                        if (quals.IsSetShipsDomestically())
+                                        {
+                                            switch (quals.ShipsDomestically)
+                                            {
+                                                case "True":
+                                                    l.ShipsDomestically = TriBool.True;
+                                                    break;
+                                                case "False":
+                                                    l.ShipsDomestically = TriBool.False;
+                                                    break;
+                                                default:
+                                                    l.ShipsDomestically = TriBool.Unknown;
+                                                    break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            l.ShipsDomestically = TriBool.Unknown;
+                                        }
+                                    }
+
+                                    if (lowest.IsSetSellerFeedbackCount())
+                                    {
+                                        var feedback = lowest.SellerFeedbackCount;
+                                        l.SellerFeedbackCount = feedback;
+                                    }
+
+                                    product.LowestOfferListing.Add(l);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void PerformAmazonCompetivePricing(ref AmazonProduct product)
+        {
+            var request = new MarketplaceWebServiceProducts.Model.GetCompetitivePricingForASINRequest();
+            request.ASINList = new MarketplaceWebServiceProducts.Model.ASINListType();
+            request.ASINList.ASIN = new List<string>();
+            request.ASINList.ASIN.Add(product.ASIN);
+            request.MarketplaceId = marketplaceID;
+            request.SellerId = merchantID;
+
+            var response = amz.GetCompetitivePricingForASIN(request);
+
+            if (response.IsSetGetCompetitivePricingForASINResult())
+            {
+                var results = response.GetCompetitivePricingForASINResult;
+
+                if (results.Count() > 1)
+                {
+                    dynamic temp = new { hello = "world" };
+                    temp.hello = "hello";
+                }
+
+                foreach (var result in results)
+                {
+                    if (result.IsSetProduct())
+                    {
+                        var productCap = result.Product;
+
+                        if (productCap.IsSetCompetitivePricing())
+                        {
+                            var competitive = productCap.CompetitivePricing;
+
+                            if (competitive.IsSetCompetitivePrices())
+                            {
+                                var priceCap = competitive.CompetitivePrices;
+
+                                if (priceCap.IsSetCompetitivePrice())
+                                {
+                                    var prices = priceCap.CompetitivePrice;
+
+                                    product.CompetivePrices = new List<ConditionList>();
+
+                                    foreach (var price in prices)
+                                    {
+                                        if (price.IsSetcondition() && price.IsSetPrice())
+                                        {
+                                            var p = new ConditionList();
+                                            p.Condition = price.condition;
+                                            p.Price = new PriceType();
+                                            p.Price.LandedPrice = price.Price.LandedPrice.Amount;
+                                            p.Price.ListPrice = price.Price.ListingPrice.Amount;
+                                            p.Price.Shipping = price.Price.Shipping.Amount;
+
+                                            if (price.IsSetsubcondition())
+                                            {
+                                                p.SubCondition = price.subcondition;
+                                            }
+                                            else
+                                            {
+                                                p.SubCondition = price.condition;
+                                            }
+
+                                            product.CompetivePrices.Add(p);
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (competitive.IsSetNumberOfOfferListings())
+                            {
+                                var offerlistings = competitive.NumberOfOfferListings;
+
+                                if (offerlistings.IsSetOfferListingCount())
+                                {
+                                    var listings = offerlistings.OfferListingCount;
+
+                                    product.OfferListingCount = new List<ConditionList>();
+
+                                    foreach (var list in listings)
+                                    {
+                                        if (list.IsSetcondition() && list.IsSetValue())
+                                        {
+                                            var p = new ConditionList();
+                                            p.Condition = list.condition;
+                                            p.Count = list.Value;
+                                            product.OfferListingCount.Add(p);
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (competitive.IsSetTradeInValue())
+                            {
+                                var tradein = competitive.TradeInValue;
+
+                                product.TradeInValue = tradein.Amount;
+                            }
+                        }
+
+                        if (productCap.IsSetSalesRankings())
+                        {
+                            var rankList = productCap.SalesRankings;
+
+                            if (rankList.IsSetSalesRank())
+                            {
+                                var ranks = rankList.SalesRank;
+
+                                foreach (var rank in ranks)
+                                {
+                                    if (rank.IsSetProductCategoryId() && rank.IsSetRank())
+                                    {
+                                        //check for existence
+                                        var q = product.SalesRanks.Find(r => r.Category == rank.ProductCategoryId);
+
+                                        if (q != null)
+                                        {
+                                            q.Rank = rank.Rank;
+                                        }
+                                        else
+                                        {
+                                            product.SalesRanks.Add(new SalesRank() { Category = rank.ProductCategoryId, Rank = rank.Rank });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -157,7 +437,7 @@ namespace api.Models
         {
             MarketplaceWebServiceProducts.MarketplaceWebServiceProductsConfig config = new MarketplaceWebServiceProducts.MarketplaceWebServiceProductsConfig();
             config.ServiceURL = "https://mws.amazonservices.com/Products/2011-10-01";
-            MarketplaceWebServiceProducts.MarketplaceWebServiceProductsClient client = new MarketplaceWebServiceProducts.MarketplaceWebServiceProductsClient("Abundatrade.com", "2.0", accessKey, secretKey, config);
+            amz = new MarketplaceWebServiceProducts.MarketplaceWebServiceProductsClient("Abundatrade.com", "2.0", accessKey, secretKey, config);
 
             List<AmazonProduct> AProducts = new List<AmazonProduct>();
 
@@ -169,7 +449,7 @@ namespace api.Models
             id_request.SellerId = merchantID;
             id_request.MarketplaceId = marketplaceID;
 
-            var id_result = client.GetMatchingProductForId(id_request);
+            var id_result = amz.GetMatchingProductForId(id_request);
 
             if (id_result.IsSetGetMatchingProductForIdResult())
             {
@@ -221,13 +501,13 @@ namespace api.Models
                                     {
                                         var ranks = salesRanks.SalesRank;
 
-                                        aproduct.SalesRanks = new Dictionary<string, decimal>();
+                                        aproduct.SalesRanks = new List<SalesRank>();
 
                                         foreach (var rank in ranks)
                                         {
                                             if (rank.IsSetProductCategoryId() && rank.IsSetRank())
                                             {
-                                                aproduct.SalesRanks.Add(rank.ProductCategoryId, rank.Rank);
+                                                aproduct.SalesRanks.Add(new SalesRank() { Category = rank.ProductCategoryId, Rank = rank.Rank });
                                             }
                                         }
                                     }
