@@ -328,6 +328,12 @@
       <DependentUpon>DataBase.dbml</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MarketplaceWebServiceProducts\MarketplaceWebServiceProducts.csproj">
+      <Project>{98b8af6d-4cbd-467e-adee-9a3a98ee3533}</Project>
+      <Name>MarketplaceWebServiceProducts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
