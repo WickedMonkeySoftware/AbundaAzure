@@ -1,4 +1,5 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -8,6 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MarketplaceWebServiceProducts</RootNamespace>
     <AssemblyName>MarketplaceWebServiceProducts</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,11 +40,11 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="MarketplaceWebServiceProducts\*.cs" />
-     <Compile Include="MarketplaceWebServiceProducts\Model\*.cs" />
-     <Compile Include="MarketplaceWebServiceProducts\Mock\*.cs" />
-     <Compile Include="MarketplaceWebServiceProducts\Util\*.cs" />
-     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MarketplaceWebServiceProducts\*.cs" />
+    <Compile Include="MarketplaceWebServiceProducts\Model\*.cs" />
+    <Compile Include="MarketplaceWebServiceProducts\Mock\*.cs" />
+    <Compile Include="MarketplaceWebServiceProducts\Util\*.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MarketplaceWebServiceProducts\Mock\GetMatchingProductResponse.xml">
