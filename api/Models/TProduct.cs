@@ -69,6 +69,7 @@ namespace api.Models
             List<AmazonProduct> AProducts = new List<AmazonProduct>();
 
             var id_request = new MarketplaceWebServiceProducts.Model.GetMatchingProductForIdRequest();
+            id_request.IdList = new MarketplaceWebServiceProducts.Model.IdListType();
             id_request.IdList.Id = new List<string>();
             id_request.IdList.Id.Add(ProductCode);
             id_request.IdType = "UPC";

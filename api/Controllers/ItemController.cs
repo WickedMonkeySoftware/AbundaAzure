@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using api.Models;
 
 namespace api.Controllers
 {
@@ -14,7 +15,7 @@ namespace api.Controllers
     {
         public object Put(string affiliate, string product_code, int qty)
         {
-            return execute("add", product_code, qty);
+            return execute("add", product_code, qty, affiliate);
         }
 
         /// <summary>
@@ -24,13 +25,14 @@ namespace api.Controllers
         /// <param name="product_code">The upc/isbn to perform the action to</param>
         /// <param name="qty">The qty to apply it</param>
         /// <returns>The answer to the question</returns>
-        private object execute(string action, string product_code, int qty)
+        private object execute(string action, string product_code, int qty, string affiliate)
         {
             switch (action)
             {
                 case "delete":
                     break;
                 case "add":
+                    TProduct prod = new TProduct(affiliate, product_code, qty, true);
                     break;
                 case "modify":
                     break;
@@ -77,7 +79,7 @@ namespace api.Controllers
             var isVerified = true;
             if (isVerified)
             {
-                return execute(action, product_code, qty);
+                return execute(action, product_code, qty, apikey);
             }
 
             return error("Invalid API Key usage");
