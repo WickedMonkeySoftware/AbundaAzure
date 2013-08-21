@@ -14,7 +14,7 @@ namespace api.Filters
         {
             if (!string.Equals(actionContext.Request.RequestUri.Scheme, "https", StringComparison.OrdinalIgnoreCase))
             {
-                actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest) { Content = new StringContent("HTTPS Required") };
+                actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest) { Content = new StringContent(@"{""error"": ""HTTPS Required""}") };
                 return;
             }
         }
