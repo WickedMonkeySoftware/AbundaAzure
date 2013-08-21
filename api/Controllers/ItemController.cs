@@ -12,7 +12,7 @@ namespace api.Controllers
     /// </summary>
     public class ItemController : ApiController
     {
-        public object Put(string product_code, int qty)
+        public object Put(string affiliate, string product_code, int qty)
         {
             return execute("add", product_code, qty);
         }

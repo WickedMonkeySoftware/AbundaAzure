@@ -30,15 +30,15 @@ namespace api
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertAffiliate(Affiliate instance);
-    partial void UpdateAffiliate(Affiliate instance);
-    partial void DeleteAffiliate(Affiliate instance);
     partial void InsertApiKey(ApiKey instance);
     partial void UpdateApiKey(ApiKey instance);
     partial void DeleteApiKey(ApiKey instance);
     partial void InsertKeyRestriction(KeyRestriction instance);
     partial void UpdateKeyRestriction(KeyRestriction instance);
     partial void DeleteKeyRestriction(KeyRestriction instance);
+    partial void InsertAffiliate(Affiliate instance);
+    partial void UpdateAffiliate(Affiliate instance);
+    partial void DeleteAffiliate(Affiliate instance);
     #endregion
 		
 		public DataBaseDataContext() : 
@@ -71,14 +71,6 @@ namespace api
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Affiliate> Affiliates
-		{
-			get
-			{
-				return this.GetTable<Affiliate>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ApiKey> ApiKeys
 		{
 			get
@@ -94,143 +86,13 @@ namespace api
 				return this.GetTable<KeyRestriction>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Affiliates")]
-	public partial class Affiliate : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private string _code;
-		
-		private EntitySet<ApiKey> _ApiKeys;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OncodeChanging(string value);
-    partial void OncodeChanged();
-    #endregion
-		
-		public Affiliate()
-		{
-			this._ApiKeys = new EntitySet<ApiKey>(new Action<ApiKey>(this.attach_ApiKeys), new Action<ApiKey>(this.detach_ApiKeys));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
+		public System.Data.Linq.Table<Affiliate> Affiliates
 		{
 			get
 			{
-				return this._ID;
+				return this.GetTable<Affiliate>();
 			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_code", DbType="NVarChar(15) NOT NULL", CanBeNull=false)]
-		public string code
-		{
-			get
-			{
-				return this._code;
-			}
-			set
-			{
-				if ((this._code != value))
-				{
-					this.OncodeChanging(value);
-					this.SendPropertyChanging();
-					this._code = value;
-					this.SendPropertyChanged("code");
-					this.OncodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_ApiKey", Storage="_ApiKeys", ThisKey="ID", OtherKey="affiliate")]
-		public EntitySet<ApiKey> ApiKeys
-		{
-			get
-			{
-				return this._ApiKeys;
-			}
-			set
-			{
-				this._ApiKeys.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ApiKeys(ApiKey entity)
-		{
-			this.SendPropertyChanging();
-			entity.Affiliate1 = this;
-		}
-		
-		private void detach_ApiKeys(ApiKey entity)
-		{
-			this.SendPropertyChanging();
-			entity.Affiliate1 = null;
 		}
 	}
 	
@@ -605,6 +467,240 @@ namespace api
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Affiliates")]
+	public partial class Affiliate : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private string _code;
+		
+		private string _MerchantID;
+		
+		private string _MarketPlaceID;
+		
+		private string _SecretKey;
+		
+		private string _AccessKey;
+		
+		private EntitySet<ApiKey> _ApiKeys;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OncodeChanging(string value);
+    partial void OncodeChanged();
+    partial void OnMerchantIDChanging(string value);
+    partial void OnMerchantIDChanged();
+    partial void OnMarketPlaceIDChanging(string value);
+    partial void OnMarketPlaceIDChanged();
+    partial void OnSecretKeyChanging(string value);
+    partial void OnSecretKeyChanged();
+    partial void OnAccessKeyChanging(string value);
+    partial void OnAccessKeyChanged();
+    #endregion
+		
+		public Affiliate()
+		{
+			this._ApiKeys = new EntitySet<ApiKey>(new Action<ApiKey>(this.attach_ApiKeys), new Action<ApiKey>(this.detach_ApiKeys));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_code", DbType="NVarChar(15) NOT NULL", CanBeNull=false)]
+		public string code
+		{
+			get
+			{
+				return this._code;
+			}
+			set
+			{
+				if ((this._code != value))
+				{
+					this.OncodeChanging(value);
+					this.SendPropertyChanging();
+					this._code = value;
+					this.SendPropertyChanged("code");
+					this.OncodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MerchantID", DbType="NVarChar(50)")]
+		public string MerchantID
+		{
+			get
+			{
+				return this._MerchantID;
+			}
+			set
+			{
+				if ((this._MerchantID != value))
+				{
+					this.OnMerchantIDChanging(value);
+					this.SendPropertyChanging();
+					this._MerchantID = value;
+					this.SendPropertyChanged("MerchantID");
+					this.OnMerchantIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarketPlaceID", DbType="NVarChar(50)")]
+		public string MarketPlaceID
+		{
+			get
+			{
+				return this._MarketPlaceID;
+			}
+			set
+			{
+				if ((this._MarketPlaceID != value))
+				{
+					this.OnMarketPlaceIDChanging(value);
+					this.SendPropertyChanging();
+					this._MarketPlaceID = value;
+					this.SendPropertyChanged("MarketPlaceID");
+					this.OnMarketPlaceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SecretKey", DbType="NVarChar(50)")]
+		public string SecretKey
+		{
+			get
+			{
+				return this._SecretKey;
+			}
+			set
+			{
+				if ((this._SecretKey != value))
+				{
+					this.OnSecretKeyChanging(value);
+					this.SendPropertyChanging();
+					this._SecretKey = value;
+					this.SendPropertyChanged("SecretKey");
+					this.OnSecretKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccessKey", DbType="NVarChar(50)")]
+		public string AccessKey
+		{
+			get
+			{
+				return this._AccessKey;
+			}
+			set
+			{
+				if ((this._AccessKey != value))
+				{
+					this.OnAccessKeyChanging(value);
+					this.SendPropertyChanging();
+					this._AccessKey = value;
+					this.SendPropertyChanged("AccessKey");
+					this.OnAccessKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_ApiKey", Storage="_ApiKeys", ThisKey="ID", OtherKey="affiliate")]
+		public EntitySet<ApiKey> ApiKeys
+		{
+			get
+			{
+				return this._ApiKeys;
+			}
+			set
+			{
+				this._ApiKeys.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ApiKeys(ApiKey entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = this;
+		}
+		
+		private void detach_ApiKeys(ApiKey entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = null;
 		}
 	}
 }

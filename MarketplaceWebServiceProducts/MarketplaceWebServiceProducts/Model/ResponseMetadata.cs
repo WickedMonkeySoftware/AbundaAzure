@@ -79,7 +79,7 @@ namespace MarketplaceWebServiceProducts.Model
         /// </remarks>
 
 
-        protected internal String ToXMLFragment() {
+        public String ToXMLFragment() {
             StringBuilder xml = new StringBuilder();
             if (IsSetRequestId()) {
                 xml.Append("<RequestId>");

@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="abundatrade" Class="DataBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=tcp:uvi8tq1zlh.database.windows.net;Initial Catalog=abundatrade;Persist Security Info=True;User ID=rlanders" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="abundatradeConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Affiliates" Member="Affiliates">
-    <Type Name="Affiliate">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="code" Type="System.String" DbType="NVarChar(15) NOT NULL" CanBeNull="false" />
-      <Association Name="Affiliate_ApiKey" Member="ApiKeys" ThisKey="ID" OtherKey="affiliate" Type="ApiKey" />
-    </Type>
-  </Table>
   <Table Name="dbo.ApiKeys" Member="ApiKeys">
     <Type Name="ApiKey">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -25,6 +17,18 @@
       <Column Name="Allowed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="[Key]" Member="Key" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="ApiKey_KeyRestriction" Member="ApiKey" ThisKey="Key" OtherKey="ID" Type="ApiKey" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Affiliates" Member="Affiliates">
+    <Type Name="Affiliate">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="code" Type="System.String" DbType="NVarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="MerchantID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MarketPlaceID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SecretKey" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AccessKey" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Affiliate_ApiKey" Member="ApiKeys" ThisKey="ID" OtherKey="affiliate" Type="ApiKey" />
     </Type>
   </Table>
 </Database>
