@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="Abundatrade" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2013-03.2.0">
-  <WebRole name="api" vmsize="Small">
+  <WebRole name="api" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
-          <Binding name="https" endpointName="https"/>
+          <Binding name="https" endpointName="https" />
         </Bindings>
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="https" protocol="https" port="443" certificate="apicert"/>
+      <InputEndpoint name="https" protocol="https" port="443" certificate="apicert" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
@@ -17,7 +17,13 @@
       <Import moduleName="RemoteForwarder" />
     </Imports>
     <Certificates>
-      <Certificate name="apicert" storeLocation="LocalMachine" storeName="My"/>
+      <Certificate name="apicert" storeLocation="LocalMachine" storeName="My" />
     </Certificates>
+    <ConfigurationSettings>
+      <Setting name="AbundaStorage" />
+    </ConfigurationSettings>
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
+    </LocalResources>
   </WebRole>
 </ServiceDefinition>
