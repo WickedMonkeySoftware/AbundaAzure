@@ -186,7 +186,6 @@
       <DependentUpon>DataBase.dbml</DependentUpon>
     </Compile>
     <Compile Include="Filters\CustomHttpsAttribute.cs" />
-    <Compile Include="Filters\IPHostValidationAttribute.cs" />
     <Compile Include="Filters\TokenValidationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
