@@ -15,6 +15,7 @@
       <Import moduleName="Diagnostics" />
       <Import moduleName="RemoteAccess" />
       <Import moduleName="RemoteForwarder" />
+      <Import moduleName="Caching" />
     </Imports>
     <Certificates>
       <Certificate name="apicert" storeLocation="LocalMachine" storeName="My" />

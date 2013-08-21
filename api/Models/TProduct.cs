@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.ApplicationServer.Caching;
 
 namespace api.Models
 {
@@ -60,51 +61,80 @@ namespace api.Models
             products = client.GetTableReference("Products");
             products.CreateIfNotExists();
 
-            //todo: look up item in cache
+            DataCacheFactory cachefactory = new DataCacheFactory();
+            DataCache cache = cachefactory.GetCache("AmazonCache");
 
-            using (var context = new DataBaseDataContext())
+            DataCacheLockHandle lockhandle;
+            DataCacheLockHandle asinLock;
+            var keepProduct = cache.GetAndLock(code, TimeSpan.FromSeconds(10), out lockhandle) as AmazonProduct;
+
+            if (keepProduct == null)
             {
-                var aff = (from ev in context.Affiliates
-                           where ev.code == affiliate
-                           select ev).FirstOrDefault();
+                using (var context = new DataBaseDataContext())
+                {
+                    var aff = (from ev in context.Affiliates
+                               where ev.code == affiliate
+                               select ev).FirstOrDefault();
 
-                merchantID = aff.MerchantID;
-                marketplaceID = aff.MarketPlaceID;
-                secretKey = aff.SecretKey;
-                accessKey = aff.AccessKey;
+                    merchantID = aff.MerchantID;
+                    marketplaceID = aff.MarketPlaceID;
+                    secretKey = aff.SecretKey;
+                    accessKey = aff.AccessKey;
+                }
+
+                var amzResults = PerformAmazonLookup();
+
+                if (amzResults.Count == 0)
+                {
+                    CalculatorView = new { error = "Unknown Item, double check your search" };
+                    return;
+                }
+
+                //todo: get the real product
+                keepProduct = amzResults[0];
+
+                AmazonProduct partialCache = null;
+
+                if (keepProduct.ASIN != code)
+                {
+                    partialCache = cache.GetAndLock(keepProduct.ASIN, TimeSpan.FromSeconds(10), out asinLock) as AmazonProduct;
+
+                    if (partialCache == null)
+                    {
+                        PerformAmazonCompetivePricing(ref keepProduct);
+                        PerformLowestOfferListing(ref keepProduct, "Used", false);
+                        PerformLowestOfferListing(ref keepProduct, "New", false);
+                    }
+                    else
+                    {
+                        keepProduct = partialCache;
+                    }
+                    cache.PutAndUnlock(keepProduct.ASIN, keepProduct, asinLock);
+                }
+                else
+                {
+                    PerformAmazonCompetivePricing(ref keepProduct);
+                    PerformLowestOfferListing(ref keepProduct, "Used", false);
+                    PerformLowestOfferListing(ref keepProduct, "New", false);
+                }
+
+                cache.PutAndUnlock(code, keepProduct, lockhandle);
             }
-
-            var amzResults = PerformAmazonLookup();
-
-            if (amzResults.Count == 0)
-            {
-                CalculatorView = new { error = "Unknown Item, double check your search" };
-                return;
-            }
-
-            //todo: get the real product
-            var keepProduct = amzResults[0];
-
-            PerformAmazonCompetivePricing(ref keepProduct);
-            PerformLowestOfferListing(ref keepProduct, "Used", false);
-            PerformLowestOfferListing(ref keepProduct, "New", false);
-
-            //todo: save data in cache
 
             //todo: save data for retrieval in a list
 
             CalculatorView = new
             {
-                currency_for_total="$",
+                currency_for_total = "$",
                 id = "0",
                 image = "small",
                 imagem = "medium",
                 imagel = "large",
-                price = amzResults[0].ListPrice,
-                product_code = amzResults[0].Code,
+                price = keepProduct.ListPrice,
+                product_code = keepProduct.Code,
                 quantity = qty,
-                title = amzResults[0].Title,
-                total = amzResults[0].ListPrice * qty,
+                title = keepProduct.Title,
+                total = keepProduct.ListPrice * qty,
                 total_qty = qty,
                 row = new List<dynamic>()
             };
