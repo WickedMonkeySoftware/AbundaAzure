@@ -3,7 +3,17 @@
   <Role name="api">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=abundastorage;AccountKey=HT10a04RSKJYr3LurD1WOIZ20smW/EER7mRi6RLHOwa/qZnmvCdErkbYCemRCbMVoF65pDdNen/4S6HtcsyrPg==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="rlanders" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECCsGaVvprm9QxIfznuXtHcwDQYJKoZIhvcNAQEBBQAEggEA38NKJnddPbp6+kbQG9ccKQNSPO4rg8u8b5w/4rC+h0hIMC0erupqu7GrJkqDmq9GPKrm0276xZk2HM18+bEX7foKWgBkJiPJT6v9/RCMJlWOLtR7lEiDgbmyshFyrk9XxYt6Wn0GVXny2F1yqc2upty9+e8Pi8TN+MCU8/NDJnvINoY9b578+Dy48NPQrZFwW3KqB+b61GsAabMJjbvZseU84n+OGOXfvoBSjXZ7qugvych97+CWc1X8NUYJP2LvbyL2cHumlVJYq1auiuJ6IrAChDQDZs3tnXVWQKDhRd1R2Vb/FrNtSkr6gnh5QruVBRJgq2cu3nxufbdcVZAUwjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECEsoMgEmZfbygBCrAqcWWlG4CTMx+knG2o6T" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2020-08-20T23:59:59.0000000-04:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="AbundaStorage" value="DefaultEndpointsProtocol=https;AccountName=abundastorage;AccountKey=HT10a04RSKJYr3LurD1WOIZ20smW/EER7mRi6RLHOwa/qZnmvCdErkbYCemRCbMVoF65pDdNen/4S6HtcsyrPg==" />
     </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="C3D379E7AE6AC50CBC8AA8CFCE3ACE0D545EBF43" thumbprintAlgorithm="sha1" />
+      <Certificate name="apicert" thumbprint="D4D2C115292CFF5B758E623F8F922156B43F885A" thumbprintAlgorithm="sha1" />
+    </Certificates>
   </Role>
 </ServiceConfiguration>

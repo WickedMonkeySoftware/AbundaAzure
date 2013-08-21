@@ -16,9 +16,14 @@ namespace api
             );
 
             config.Routes.MapHttpRoute(
-                name: "ProcessAPI",
+                name: "ItemAPI",
                 routeTemplate: "{controller}/{apikey}/{action}/{product_code}/{qty}",
                 defaults: new { action = RouteParameter.Optional, product_code = RouteParameter.Optional, qty = RouteParameter.Optional }
+                );
+
+            config.Routes.MapHttpRoute(
+                name: "APIAPI",
+                routeTemplate: "{controller}/{apikey}"
                 );
 
             var appxml = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
