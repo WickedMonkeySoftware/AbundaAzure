@@ -42,6 +42,7 @@ namespace api.Models
         public string CurrencyCode { get; set; }
         public string Manufacturer { get; set; }
         public string Group { get; set; }
+        public string Director { get; set; }
 
         public string Code
         {

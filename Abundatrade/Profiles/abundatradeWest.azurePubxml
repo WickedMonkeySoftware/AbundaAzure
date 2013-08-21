@@ -9,14 +9,14 @@
     <AzureEnableRemoteDesktop>True</AzureEnableRemoteDesktop>
     <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
     <AzureFallbackToDeleteAndRecreateIfUpgradeFails>False</AzureFallbackToDeleteAndRecreateIfUpgradeFails>
-    <AzureHostedServiceLabel>abundatrade</AzureHostedServiceLabel>
-    <AzureHostedServiceName>abundatrade</AzureHostedServiceName>
+    <AzureHostedServiceLabel>abundawest</AzureHostedServiceLabel>
+    <AzureHostedServiceName>abundawest</AzureHostedServiceName>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
     <AzureSolutionConfiguration>Release</AzureSolutionConfiguration>
-    <AzureStorageAccountLabel>abundastorage</AzureStorageAccountLabel>
-    <AzureStorageAccountName>abundastorage</AzureStorageAccountName>
+    <AzureStorageAccountLabel>abundawest</AzureStorageAccountLabel>
+    <AzureStorageAccountName>abundawest</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
   </PropertyGroup>
 </Project>

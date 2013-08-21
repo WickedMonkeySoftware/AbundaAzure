@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\abundatradeProduction.azurePubxml" />
+    <PublishProfile Include="Profiles\abundatradeWest.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

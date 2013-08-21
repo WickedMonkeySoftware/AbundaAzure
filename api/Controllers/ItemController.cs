@@ -33,7 +33,10 @@ namespace api.Controllers
                     break;
                 case "add":
                     TProduct prod = new TProduct(affiliate, product_code, qty, true);
-                    break;
+
+                    //todo: Load and display for list management
+
+                    return prod.CalculatorView;
                 case "modify":
                     break;
                 default:
