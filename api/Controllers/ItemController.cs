@@ -12,6 +12,11 @@ namespace api.Controllers
     /// </summary>
     public class ItemController : ApiController
     {
+        public object Put(string product_code, int qty)
+        {
+            return execute("add", product_code, qty);
+        }
+
         /// <summary>
         /// Executes an action
         /// </summary>
@@ -69,9 +74,7 @@ namespace api.Controllers
         /// <returns>The result of the action</returns>
         public object Get(string apikey, string action, string product_code, int qty)
         {
-            APIController api = new APIController();
-            bool isVerified = api.verifyKey(apikey);
-
+            var isVerified = true;
             if (isVerified)
             {
                 return execute(action, product_code, qty);

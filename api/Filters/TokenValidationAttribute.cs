@@ -12,6 +12,11 @@ namespace api.Filters
 {
     public class TokenValidationAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        /// Gets the ip of the requester
+        /// </summary>
+        /// <param name="actionContext">The context to execute in</param>
+        /// <returns>The ip address</returns>
         private string getIP(HttpActionContext actionContext)
         {
             string ip = "";
@@ -31,12 +36,21 @@ namespace api.Filters
             return ip;
         }
 
+        /// <summary>
+        /// Perform the filter
+        /// </summary>
+        /// <param name="actionContext">The context to perform on</param>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             string ip = getIP(actionContext);
             ValidateToken(actionContext, ip);
         }
 
+        /// <summary>
+        /// Validates a validation token
+        /// </summary>
+        /// <param name="actionContext">The context to execute</param>
+        /// <param name="ip">The ip address to verify against</param>
         private void ValidateToken(HttpActionContext actionContext, string ip)
         {
             string token;
@@ -47,7 +61,7 @@ namespace api.Filters
             }
             catch (Exception)
             {
-                actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest) { Content = new StringContent("Missing Authorization-Token") };
+                actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest) { Content = new StringContent(@"{""error"": ""Missing Authorization-Token""}") };
                 return;
             }
 
@@ -64,14 +78,14 @@ namespace api.Filters
 
                 if (!allowed)
                 {
-                    actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden) { Content = new StringContent("Unauthorized IP Address") };
+                    actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden) { Content = new StringContent(@"{""error"": ""Unauthorized IP Address""}") };
                 }
 
                 base.OnActionExecuting(actionContext);
             }
             catch (Exception)
             {
-                actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden) { Content = new StringContent("Unauthorized User") };
+                actionContext.Response = new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden) { Content = new StringContent(@"{""error"": ""Unauthorized User""}") };
                 return;
             }
         }
