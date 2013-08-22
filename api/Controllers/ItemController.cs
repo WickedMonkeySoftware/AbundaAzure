@@ -13,9 +13,9 @@ namespace api.Controllers
     /// </summary>
     public class ItemController : ApiController
     {
-        public object Put(string affiliate, string product_code, int qty)
+        public object Put(string affiliate, string product_code, int qty, string app)
         {
-            return execute("add", product_code, qty, affiliate);
+            return execute("add", product_code, qty, affiliate, app);
         }
 
         /// <summary>
@@ -25,14 +25,14 @@ namespace api.Controllers
         /// <param name="product_code">The upc/isbn to perform the action to</param>
         /// <param name="qty">The qty to apply it</param>
         /// <returns>The answer to the question</returns>
-        private object execute(string action, string product_code, int qty, string affiliate)
+        private object execute(string action, string product_code, int qty, string affiliate, string app)
         {
             switch (action)
             {
                 case "delete":
                     break;
                 case "add":
-                    TProduct prod = new TProduct(affiliate, product_code, qty, true);
+                    TProduct prod = new TProduct(affiliate, product_code, qty, app, true);
 
                     //todo: Load and display for list management
 
@@ -64,9 +64,9 @@ namespace api.Controllers
         /// <param name="product_code">The item to perform the action on</param>
         /// <param name="qty">the quantity to affect</param>
         /// <returns>The result of the action</returns>
-        public object Post([FromBody] string apikey, [FromBody] string action, [FromBody] string product_code, [FromBody] int qty)
+        public object Post([FromBody] string apikey, [FromBody] string action, [FromBody] string product_code, [FromBody] int qty, string app)
         {
-            return Get(apikey, action, product_code, qty);
+            return Get(apikey, action, product_code, qty, app);
         }
 
         /// <summary>
@@ -77,12 +77,12 @@ namespace api.Controllers
         /// <param name="product_code">The item to perform the action on</param>
         /// <param name="qty">The quantity to affect</param>
         /// <returns>The result of the action</returns>
-        public object Get(string apikey, string action, string product_code, int qty)
+        public object Get(string apikey, string action, string product_code, int qty, string app)
         {
             var isVerified = true;
             if (isVerified)
             {
-                return execute(action, product_code, qty, apikey);
+                return execute(action, product_code, qty, apikey, app);
             }
 
             return error("Invalid API Key usage");

@@ -39,6 +39,30 @@ namespace api
     partial void InsertAffiliate(Affiliate instance);
     partial void UpdateAffiliate(Affiliate instance);
     partial void DeleteAffiliate(Affiliate instance);
+    partial void InsertCodeType(CodeType instance);
+    partial void UpdateCodeType(CodeType instance);
+    partial void DeleteCodeType(CodeType instance);
+    partial void InsertTradeCategory(TradeCategory instance);
+    partial void UpdateTradeCategory(TradeCategory instance);
+    partial void DeleteTradeCategory(TradeCategory instance);
+    partial void InsertTradeCondition(TradeCondition instance);
+    partial void UpdateTradeCondition(TradeCondition instance);
+    partial void DeleteTradeCondition(TradeCondition instance);
+    partial void InsertTradeProduct(TradeProduct instance);
+    partial void UpdateTradeProduct(TradeProduct instance);
+    partial void DeleteTradeProduct(TradeProduct instance);
+    partial void InsertTradeTurn(TradeTurn instance);
+    partial void UpdateTradeTurn(TradeTurn instance);
+    partial void DeleteTradeTurn(TradeTurn instance);
+    partial void InsertTradeApp(TradeApp instance);
+    partial void UpdateTradeApp(TradeApp instance);
+    partial void DeleteTradeApp(TradeApp instance);
+    partial void InsertAmazonCategory(AmazonCategory instance);
+    partial void UpdateAmazonCategory(AmazonCategory instance);
+    partial void DeleteAmazonCategory(AmazonCategory instance);
+    partial void InsertAmazonToTradeCategory(AmazonToTradeCategory instance);
+    partial void UpdateAmazonToTradeCategory(AmazonToTradeCategory instance);
+    partial void DeleteAmazonToTradeCategory(AmazonToTradeCategory instance);
     #endregion
 		
 		public DataBaseDataContext() : 
@@ -92,6 +116,70 @@ namespace api
 			get
 			{
 				return this.GetTable<Affiliate>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CodeType> CodeTypes
+		{
+			get
+			{
+				return this.GetTable<CodeType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TradeCategory> TradeCategories
+		{
+			get
+			{
+				return this.GetTable<TradeCategory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TradeCondition> TradeConditions
+		{
+			get
+			{
+				return this.GetTable<TradeCondition>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TradeProduct> TradeProducts
+		{
+			get
+			{
+				return this.GetTable<TradeProduct>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TradeTurn> TradeTurns
+		{
+			get
+			{
+				return this.GetTable<TradeTurn>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TradeApp> TradeApps
+		{
+			get
+			{
+				return this.GetTable<TradeApp>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AmazonCategory> AmazonCategories
+		{
+			get
+			{
+				return this.GetTable<AmazonCategory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AmazonToTradeCategory> AmazonToTradeCategories
+		{
+			get
+			{
+				return this.GetTable<AmazonToTradeCategory>();
 			}
 		}
 	}
@@ -492,6 +580,16 @@ namespace api
 		
 		private EntitySet<ApiKey> _ApiKeys;
 		
+		private EntitySet<TradeCategory> _TradeCategories;
+		
+		private EntitySet<TradeCondition> _TradeConditions;
+		
+		private EntitySet<TradeProduct> _TradeProducts;
+		
+		private EntitySet<TradeTurn> _TradeTurns;
+		
+		private EntitySet<TradeApp> _TradeApps;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -515,6 +613,11 @@ namespace api
 		public Affiliate()
 		{
 			this._ApiKeys = new EntitySet<ApiKey>(new Action<ApiKey>(this.attach_ApiKeys), new Action<ApiKey>(this.detach_ApiKeys));
+			this._TradeCategories = new EntitySet<TradeCategory>(new Action<TradeCategory>(this.attach_TradeCategories), new Action<TradeCategory>(this.detach_TradeCategories));
+			this._TradeConditions = new EntitySet<TradeCondition>(new Action<TradeCondition>(this.attach_TradeConditions), new Action<TradeCondition>(this.detach_TradeConditions));
+			this._TradeProducts = new EntitySet<TradeProduct>(new Action<TradeProduct>(this.attach_TradeProducts), new Action<TradeProduct>(this.detach_TradeProducts));
+			this._TradeTurns = new EntitySet<TradeTurn>(new Action<TradeTurn>(this.attach_TradeTurns), new Action<TradeTurn>(this.detach_TradeTurns));
+			this._TradeApps = new EntitySet<TradeApp>(new Action<TradeApp>(this.attach_TradeApps), new Action<TradeApp>(this.detach_TradeApps));
 			OnCreated();
 		}
 		
@@ -671,6 +774,71 @@ namespace api
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeCategory", Storage="_TradeCategories", ThisKey="ID", OtherKey="Affiliate")]
+		public EntitySet<TradeCategory> TradeCategories
+		{
+			get
+			{
+				return this._TradeCategories;
+			}
+			set
+			{
+				this._TradeCategories.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeCondition", Storage="_TradeConditions", ThisKey="ID", OtherKey="Affiliate")]
+		public EntitySet<TradeCondition> TradeConditions
+		{
+			get
+			{
+				return this._TradeConditions;
+			}
+			set
+			{
+				this._TradeConditions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeProduct", Storage="_TradeProducts", ThisKey="ID", OtherKey="Affiliate")]
+		public EntitySet<TradeProduct> TradeProducts
+		{
+			get
+			{
+				return this._TradeProducts;
+			}
+			set
+			{
+				this._TradeProducts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeTurn", Storage="_TradeTurns", ThisKey="ID", OtherKey="Affiliate")]
+		public EntitySet<TradeTurn> TradeTurns
+		{
+			get
+			{
+				return this._TradeTurns;
+			}
+			set
+			{
+				this._TradeTurns.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeApp", Storage="_TradeApps", ThisKey="ID", OtherKey="Affiliate")]
+		public EntitySet<TradeApp> TradeApps
+		{
+			get
+			{
+				return this._TradeApps;
+			}
+			set
+			{
+				this._TradeApps.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -701,6 +869,2903 @@ namespace api
 		{
 			this.SendPropertyChanging();
 			entity.Affiliate1 = null;
+		}
+		
+		private void attach_TradeCategories(TradeCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = this;
+		}
+		
+		private void detach_TradeCategories(TradeCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = null;
+		}
+		
+		private void attach_TradeConditions(TradeCondition entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = this;
+		}
+		
+		private void detach_TradeConditions(TradeCondition entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = null;
+		}
+		
+		private void attach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = this;
+		}
+		
+		private void detach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = null;
+		}
+		
+		private void attach_TradeTurns(TradeTurn entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = this;
+		}
+		
+		private void detach_TradeTurns(TradeTurn entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = null;
+		}
+		
+		private void attach_TradeApps(TradeApp entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = this;
+		}
+		
+		private void detach_TradeApps(TradeApp entity)
+		{
+			this.SendPropertyChanging();
+			entity.Affiliate1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CodeTypes")]
+	public partial class CodeType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private EntitySet<TradeProduct> _TradeProducts;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    #endregion
+		
+		public CodeType()
+		{
+			this._TradeProducts = new EntitySet<TradeProduct>(new Action<TradeProduct>(this.attach_TradeProducts), new Action<TradeProduct>(this.detach_TradeProducts));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(15) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CodeType_TradeProduct", Storage="_TradeProducts", ThisKey="ID", OtherKey="CodeType")]
+		public EntitySet<TradeProduct> TradeProducts
+		{
+			get
+			{
+				return this._TradeProducts;
+			}
+			set
+			{
+				this._TradeProducts.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.CodeType1 = this;
+		}
+		
+		private void detach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.CodeType1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TradeCategories")]
+	public partial class TradeCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Title;
+		
+		private string _Notes;
+		
+		private int _Affiliate;
+		
+		private bool _DoTurnBasedCalculations;
+		
+		private bool _DoCustomCalculations;
+		
+		private bool _Deleted;
+		
+		private EntitySet<TradeProduct> _TradeProducts;
+		
+		private EntitySet<TradeTurn> _TradeTurns;
+		
+		private EntitySet<AmazonToTradeCategory> _AmazonToTradeCategories;
+		
+		private EntityRef<Affiliate> _Affiliate1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnNotesChanging(string value);
+    partial void OnNotesChanged();
+    partial void OnAffiliateChanging(int value);
+    partial void OnAffiliateChanged();
+    partial void OnDoTurnBasedCalculationsChanging(bool value);
+    partial void OnDoTurnBasedCalculationsChanged();
+    partial void OnDoCustomCalculationsChanging(bool value);
+    partial void OnDoCustomCalculationsChanged();
+    partial void OnDeletedChanging(bool value);
+    partial void OnDeletedChanged();
+    #endregion
+		
+		public TradeCategory()
+		{
+			this._TradeProducts = new EntitySet<TradeProduct>(new Action<TradeProduct>(this.attach_TradeProducts), new Action<TradeProduct>(this.detach_TradeProducts));
+			this._TradeTurns = new EntitySet<TradeTurn>(new Action<TradeTurn>(this.attach_TradeTurns), new Action<TradeTurn>(this.detach_TradeTurns));
+			this._AmazonToTradeCategories = new EntitySet<AmazonToTradeCategory>(new Action<AmazonToTradeCategory>(this.attach_AmazonToTradeCategories), new Action<AmazonToTradeCategory>(this.detach_AmazonToTradeCategories));
+			this._Affiliate1 = default(EntityRef<Affiliate>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Notes", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Notes
+		{
+			get
+			{
+				return this._Notes;
+			}
+			set
+			{
+				if ((this._Notes != value))
+				{
+					this.OnNotesChanging(value);
+					this.SendPropertyChanging();
+					this._Notes = value;
+					this.SendPropertyChanged("Notes");
+					this.OnNotesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Affiliate", DbType="Int NOT NULL")]
+		public int Affiliate
+		{
+			get
+			{
+				return this._Affiliate;
+			}
+			set
+			{
+				if ((this._Affiliate != value))
+				{
+					if (this._Affiliate1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAffiliateChanging(value);
+					this.SendPropertyChanging();
+					this._Affiliate = value;
+					this.SendPropertyChanged("Affiliate");
+					this.OnAffiliateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoTurnBasedCalculations", DbType="Bit NOT NULL")]
+		public bool DoTurnBasedCalculations
+		{
+			get
+			{
+				return this._DoTurnBasedCalculations;
+			}
+			set
+			{
+				if ((this._DoTurnBasedCalculations != value))
+				{
+					this.OnDoTurnBasedCalculationsChanging(value);
+					this.SendPropertyChanging();
+					this._DoTurnBasedCalculations = value;
+					this.SendPropertyChanged("DoTurnBasedCalculations");
+					this.OnDoTurnBasedCalculationsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoCustomCalculations", DbType="Bit NOT NULL")]
+		public bool DoCustomCalculations
+		{
+			get
+			{
+				return this._DoCustomCalculations;
+			}
+			set
+			{
+				if ((this._DoCustomCalculations != value))
+				{
+					this.OnDoCustomCalculationsChanging(value);
+					this.SendPropertyChanging();
+					this._DoCustomCalculations = value;
+					this.SendPropertyChanged("DoCustomCalculations");
+					this.OnDoCustomCalculationsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
+		public bool Deleted
+		{
+			get
+			{
+				return this._Deleted;
+			}
+			set
+			{
+				if ((this._Deleted != value))
+				{
+					this.OnDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._Deleted = value;
+					this.SendPropertyChanged("Deleted");
+					this.OnDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCategory_TradeProduct", Storage="_TradeProducts", ThisKey="ID", OtherKey="Category")]
+		public EntitySet<TradeProduct> TradeProducts
+		{
+			get
+			{
+				return this._TradeProducts;
+			}
+			set
+			{
+				this._TradeProducts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCategory_TradeTurn", Storage="_TradeTurns", ThisKey="ID", OtherKey="Category")]
+		public EntitySet<TradeTurn> TradeTurns
+		{
+			get
+			{
+				return this._TradeTurns;
+			}
+			set
+			{
+				this._TradeTurns.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCategory_AmazonToTradeCategory", Storage="_AmazonToTradeCategories", ThisKey="ID", OtherKey="TradeCat")]
+		public EntitySet<AmazonToTradeCategory> AmazonToTradeCategories
+		{
+			get
+			{
+				return this._AmazonToTradeCategories;
+			}
+			set
+			{
+				this._AmazonToTradeCategories.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeCategory", Storage="_Affiliate1", ThisKey="Affiliate", OtherKey="ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Affiliate Affiliate1
+		{
+			get
+			{
+				return this._Affiliate1.Entity;
+			}
+			set
+			{
+				Affiliate previousValue = this._Affiliate1.Entity;
+				if (((previousValue != value) 
+							|| (this._Affiliate1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Affiliate1.Entity = null;
+						previousValue.TradeCategories.Remove(this);
+					}
+					this._Affiliate1.Entity = value;
+					if ((value != null))
+					{
+						value.TradeCategories.Add(this);
+						this._Affiliate = value.ID;
+					}
+					else
+					{
+						this._Affiliate = default(int);
+					}
+					this.SendPropertyChanged("Affiliate1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCategory = this;
+		}
+		
+		private void detach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCategory = null;
+		}
+		
+		private void attach_TradeTurns(TradeTurn entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCategory = this;
+		}
+		
+		private void detach_TradeTurns(TradeTurn entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCategory = null;
+		}
+		
+		private void attach_AmazonToTradeCategories(AmazonToTradeCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCategory = this;
+		}
+		
+		private void detach_AmazonToTradeCategories(AmazonToTradeCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCategory = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TradeConditions")]
+	public partial class TradeCondition : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private int _Affiliate;
+		
+		private System.Nullable<int> _MapsToCustomerSide;
+		
+		private System.Nullable<int> _MapsToAmazon;
+		
+		private System.Nullable<decimal> _OfferScalar;
+		
+		private int _SortOrder;
+		
+		private bool _isBaseCondition;
+		
+		private bool _Deleted;
+		
+		private EntitySet<TradeCondition> _TradeConditions;
+		
+		private EntitySet<TradeProduct> _TradeProducts;
+		
+		private EntityRef<Affiliate> _Affiliate1;
+		
+		private EntityRef<TradeCondition> _TradeCondition1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnAffiliateChanging(int value);
+    partial void OnAffiliateChanged();
+    partial void OnMapsToCustomerSideChanging(System.Nullable<int> value);
+    partial void OnMapsToCustomerSideChanged();
+    partial void OnMapsToAmazonChanging(System.Nullable<int> value);
+    partial void OnMapsToAmazonChanged();
+    partial void OnOfferScalarChanging(System.Nullable<decimal> value);
+    partial void OnOfferScalarChanged();
+    partial void OnSortOrderChanging(int value);
+    partial void OnSortOrderChanged();
+    partial void OnisBaseConditionChanging(bool value);
+    partial void OnisBaseConditionChanged();
+    partial void OnDeletedChanging(bool value);
+    partial void OnDeletedChanged();
+    #endregion
+		
+		public TradeCondition()
+		{
+			this._TradeConditions = new EntitySet<TradeCondition>(new Action<TradeCondition>(this.attach_TradeConditions), new Action<TradeCondition>(this.detach_TradeConditions));
+			this._TradeProducts = new EntitySet<TradeProduct>(new Action<TradeProduct>(this.attach_TradeProducts), new Action<TradeProduct>(this.detach_TradeProducts));
+			this._Affiliate1 = default(EntityRef<Affiliate>);
+			this._TradeCondition1 = default(EntityRef<TradeCondition>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Affiliate", DbType="Int NOT NULL")]
+		public int Affiliate
+		{
+			get
+			{
+				return this._Affiliate;
+			}
+			set
+			{
+				if ((this._Affiliate != value))
+				{
+					if (this._Affiliate1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAffiliateChanging(value);
+					this.SendPropertyChanging();
+					this._Affiliate = value;
+					this.SendPropertyChanged("Affiliate");
+					this.OnAffiliateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MapsToCustomerSide", DbType="Int")]
+		public System.Nullable<int> MapsToCustomerSide
+		{
+			get
+			{
+				return this._MapsToCustomerSide;
+			}
+			set
+			{
+				if ((this._MapsToCustomerSide != value))
+				{
+					if (this._TradeCondition1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMapsToCustomerSideChanging(value);
+					this.SendPropertyChanging();
+					this._MapsToCustomerSide = value;
+					this.SendPropertyChanged("MapsToCustomerSide");
+					this.OnMapsToCustomerSideChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MapsToAmazon", DbType="Int")]
+		public System.Nullable<int> MapsToAmazon
+		{
+			get
+			{
+				return this._MapsToAmazon;
+			}
+			set
+			{
+				if ((this._MapsToAmazon != value))
+				{
+					this.OnMapsToAmazonChanging(value);
+					this.SendPropertyChanging();
+					this._MapsToAmazon = value;
+					this.SendPropertyChanged("MapsToAmazon");
+					this.OnMapsToAmazonChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OfferScalar", DbType="Money")]
+		public System.Nullable<decimal> OfferScalar
+		{
+			get
+			{
+				return this._OfferScalar;
+			}
+			set
+			{
+				if ((this._OfferScalar != value))
+				{
+					this.OnOfferScalarChanging(value);
+					this.SendPropertyChanging();
+					this._OfferScalar = value;
+					this.SendPropertyChanged("OfferScalar");
+					this.OnOfferScalarChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int NOT NULL")]
+		public int SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isBaseCondition", DbType="Bit NOT NULL")]
+		public bool isBaseCondition
+		{
+			get
+			{
+				return this._isBaseCondition;
+			}
+			set
+			{
+				if ((this._isBaseCondition != value))
+				{
+					this.OnisBaseConditionChanging(value);
+					this.SendPropertyChanging();
+					this._isBaseCondition = value;
+					this.SendPropertyChanged("isBaseCondition");
+					this.OnisBaseConditionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
+		public bool Deleted
+		{
+			get
+			{
+				return this._Deleted;
+			}
+			set
+			{
+				if ((this._Deleted != value))
+				{
+					this.OnDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._Deleted = value;
+					this.SendPropertyChanged("Deleted");
+					this.OnDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCondition_TradeCondition", Storage="_TradeConditions", ThisKey="ID", OtherKey="MapsToCustomerSide")]
+		public EntitySet<TradeCondition> TradeConditions
+		{
+			get
+			{
+				return this._TradeConditions;
+			}
+			set
+			{
+				this._TradeConditions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCondition_TradeProduct", Storage="_TradeProducts", ThisKey="ID", OtherKey="ReceivedCondition")]
+		public EntitySet<TradeProduct> TradeProducts
+		{
+			get
+			{
+				return this._TradeProducts;
+			}
+			set
+			{
+				this._TradeProducts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeCondition", Storage="_Affiliate1", ThisKey="Affiliate", OtherKey="ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Affiliate Affiliate1
+		{
+			get
+			{
+				return this._Affiliate1.Entity;
+			}
+			set
+			{
+				Affiliate previousValue = this._Affiliate1.Entity;
+				if (((previousValue != value) 
+							|| (this._Affiliate1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Affiliate1.Entity = null;
+						previousValue.TradeConditions.Remove(this);
+					}
+					this._Affiliate1.Entity = value;
+					if ((value != null))
+					{
+						value.TradeConditions.Add(this);
+						this._Affiliate = value.ID;
+					}
+					else
+					{
+						this._Affiliate = default(int);
+					}
+					this.SendPropertyChanged("Affiliate1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCondition_TradeCondition", Storage="_TradeCondition1", ThisKey="MapsToCustomerSide", OtherKey="ID", IsForeignKey=true)]
+		public TradeCondition TradeCondition1
+		{
+			get
+			{
+				return this._TradeCondition1.Entity;
+			}
+			set
+			{
+				TradeCondition previousValue = this._TradeCondition1.Entity;
+				if (((previousValue != value) 
+							|| (this._TradeCondition1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TradeCondition1.Entity = null;
+						previousValue.TradeConditions.Remove(this);
+					}
+					this._TradeCondition1.Entity = value;
+					if ((value != null))
+					{
+						value.TradeConditions.Add(this);
+						this._MapsToCustomerSide = value.ID;
+					}
+					else
+					{
+						this._MapsToCustomerSide = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TradeCondition1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TradeConditions(TradeCondition entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCondition1 = this;
+		}
+		
+		private void detach_TradeConditions(TradeCondition entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCondition1 = null;
+		}
+		
+		private void attach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCondition = this;
+		}
+		
+		private void detach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeCondition = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TradeProducts")]
+	public partial class TradeProduct : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _Status;
+		
+		private int _Category;
+		
+		private int _Quantity;
+		
+		private decimal _BestOffer;
+		
+		private int _SalesRank;
+		
+		private string _Author;
+		
+		private string _Title;
+		
+		private decimal _CalculatedOffer;
+		
+		private System.DateTime _Date;
+		
+		private string _Token;
+		
+		private string _Code;
+		
+		private int _CodeType;
+		
+		private int _Turns;
+		
+		private System.Nullable<decimal> _NewPrice;
+		
+		private System.Nullable<decimal> _LikeNewPrice;
+		
+		private System.Nullable<decimal> _VeryGoodPrice;
+		
+		private System.Nullable<decimal> _GoodPrice;
+		
+		private System.Nullable<decimal> _AcceptablePrice;
+		
+		private string _Image;
+		
+		private int _Affiliate;
+		
+		private decimal _AffiliateOffer;
+		
+		private bool _OverStocked;
+		
+		private int _List;
+		
+		private bool _ItemReceived;
+		
+		private System.Nullable<int> _ReceivedCondition;
+		
+		private System.Nullable<int> _ReceivedQuantity;
+		
+		private System.Nullable<decimal> _ReceivedOffer;
+		
+		private string _Note;
+		
+		private System.Nullable<decimal> _ListPrice;
+		
+		private System.Nullable<decimal> _FBAGoodPrice;
+		
+		private System.Nullable<decimal> _FBALikeNewPrice;
+		
+		private System.Nullable<decimal> _FBAVeryGoodPrice;
+		
+		private System.Nullable<decimal> _FBANewPrice;
+		
+		private string _ASIN;
+		
+		private int _MobileScan;
+		
+		private System.Nullable<decimal> _AmazonTradeInPrice;
+		
+		private EntityRef<TradeCategory> _TradeCategory;
+		
+		private EntityRef<Affiliate> _Affiliate1;
+		
+		private EntityRef<TradeCondition> _TradeCondition;
+		
+		private EntityRef<CodeType> _CodeType1;
+		
+		private EntityRef<TradeApp> _TradeApp;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnCategoryChanging(int value);
+    partial void OnCategoryChanged();
+    partial void OnQuantityChanging(int value);
+    partial void OnQuantityChanged();
+    partial void OnBestOfferChanging(decimal value);
+    partial void OnBestOfferChanged();
+    partial void OnSalesRankChanging(int value);
+    partial void OnSalesRankChanged();
+    partial void OnAuthorChanging(string value);
+    partial void OnAuthorChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnCalculatedOfferChanging(decimal value);
+    partial void OnCalculatedOfferChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnTokenChanging(string value);
+    partial void OnTokenChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
+    partial void OnCodeTypeChanging(int value);
+    partial void OnCodeTypeChanged();
+    partial void OnTurnsChanging(int value);
+    partial void OnTurnsChanged();
+    partial void OnNewPriceChanging(System.Nullable<decimal> value);
+    partial void OnNewPriceChanged();
+    partial void OnLikeNewPriceChanging(System.Nullable<decimal> value);
+    partial void OnLikeNewPriceChanged();
+    partial void OnVeryGoodPriceChanging(System.Nullable<decimal> value);
+    partial void OnVeryGoodPriceChanged();
+    partial void OnGoodPriceChanging(System.Nullable<decimal> value);
+    partial void OnGoodPriceChanged();
+    partial void OnAcceptablePriceChanging(System.Nullable<decimal> value);
+    partial void OnAcceptablePriceChanged();
+    partial void OnImageChanging(string value);
+    partial void OnImageChanged();
+    partial void OnAffiliateChanging(int value);
+    partial void OnAffiliateChanged();
+    partial void OnAffiliateOfferChanging(decimal value);
+    partial void OnAffiliateOfferChanged();
+    partial void OnOverStockedChanging(bool value);
+    partial void OnOverStockedChanged();
+    partial void OnListChanging(int value);
+    partial void OnListChanged();
+    partial void OnItemReceivedChanging(bool value);
+    partial void OnItemReceivedChanged();
+    partial void OnReceivedConditionChanging(System.Nullable<int> value);
+    partial void OnReceivedConditionChanged();
+    partial void OnReceivedQuantityChanging(System.Nullable<int> value);
+    partial void OnReceivedQuantityChanged();
+    partial void OnReceivedOfferChanging(System.Nullable<decimal> value);
+    partial void OnReceivedOfferChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnListPriceChanging(System.Nullable<decimal> value);
+    partial void OnListPriceChanged();
+    partial void OnFBAGoodPriceChanging(System.Nullable<decimal> value);
+    partial void OnFBAGoodPriceChanged();
+    partial void OnFBALikeNewPriceChanging(System.Nullable<decimal> value);
+    partial void OnFBALikeNewPriceChanged();
+    partial void OnFBAVeryGoodPriceChanging(System.Nullable<decimal> value);
+    partial void OnFBAVeryGoodPriceChanged();
+    partial void OnFBANewPriceChanging(System.Nullable<decimal> value);
+    partial void OnFBANewPriceChanged();
+    partial void OnASINChanging(string value);
+    partial void OnASINChanged();
+    partial void OnMobileScanChanging(int value);
+    partial void OnMobileScanChanged();
+    partial void OnAmazonTradeInPriceChanging(System.Nullable<decimal> value);
+    partial void OnAmazonTradeInPriceChanged();
+    #endregion
+		
+		public TradeProduct()
+		{
+			this._TradeCategory = default(EntityRef<TradeCategory>);
+			this._Affiliate1 = default(EntityRef<Affiliate>);
+			this._TradeCondition = default(EntityRef<TradeCondition>);
+			this._CodeType1 = default(EntityRef<CodeType>);
+			this._TradeApp = default(EntityRef<TradeApp>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Category", DbType="Int NOT NULL")]
+		public int Category
+		{
+			get
+			{
+				return this._Category;
+			}
+			set
+			{
+				if ((this._Category != value))
+				{
+					if (this._TradeCategory.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._Category = value;
+					this.SendPropertyChanged("Category");
+					this.OnCategoryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantity", DbType="Int NOT NULL")]
+		public int Quantity
+		{
+			get
+			{
+				return this._Quantity;
+			}
+			set
+			{
+				if ((this._Quantity != value))
+				{
+					this.OnQuantityChanging(value);
+					this.SendPropertyChanging();
+					this._Quantity = value;
+					this.SendPropertyChanged("Quantity");
+					this.OnQuantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BestOffer", DbType="Money NOT NULL")]
+		public decimal BestOffer
+		{
+			get
+			{
+				return this._BestOffer;
+			}
+			set
+			{
+				if ((this._BestOffer != value))
+				{
+					this.OnBestOfferChanging(value);
+					this.SendPropertyChanging();
+					this._BestOffer = value;
+					this.SendPropertyChanged("BestOffer");
+					this.OnBestOfferChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SalesRank", DbType="Int NOT NULL")]
+		public int SalesRank
+		{
+			get
+			{
+				return this._SalesRank;
+			}
+			set
+			{
+				if ((this._SalesRank != value))
+				{
+					this.OnSalesRankChanging(value);
+					this.SendPropertyChanging();
+					this._SalesRank = value;
+					this.SendPropertyChanged("SalesRank");
+					this.OnSalesRankChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Author", DbType="NVarChar(255)")]
+		public string Author
+		{
+			get
+			{
+				return this._Author;
+			}
+			set
+			{
+				if ((this._Author != value))
+				{
+					this.OnAuthorChanging(value);
+					this.SendPropertyChanging();
+					this._Author = value;
+					this.SendPropertyChanged("Author");
+					this.OnAuthorChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CalculatedOffer", DbType="Money NOT NULL")]
+		public decimal CalculatedOffer
+		{
+			get
+			{
+				return this._CalculatedOffer;
+			}
+			set
+			{
+				if ((this._CalculatedOffer != value))
+				{
+					this.OnCalculatedOfferChanging(value);
+					this.SendPropertyChanging();
+					this._CalculatedOffer = value;
+					this.SendPropertyChanged("CalculatedOffer");
+					this.OnCalculatedOfferChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime2 NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Token", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Token
+		{
+			get
+			{
+				return this._Token;
+			}
+			set
+			{
+				if ((this._Token != value))
+				{
+					this.OnTokenChanging(value);
+					this.SendPropertyChanging();
+					this._Token = value;
+					this.SendPropertyChanged("Token");
+					this.OnTokenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CodeType", DbType="Int NOT NULL")]
+		public int CodeType
+		{
+			get
+			{
+				return this._CodeType;
+			}
+			set
+			{
+				if ((this._CodeType != value))
+				{
+					if (this._CodeType1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCodeTypeChanging(value);
+					this.SendPropertyChanging();
+					this._CodeType = value;
+					this.SendPropertyChanged("CodeType");
+					this.OnCodeTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Turns", DbType="Int NOT NULL")]
+		public int Turns
+		{
+			get
+			{
+				return this._Turns;
+			}
+			set
+			{
+				if ((this._Turns != value))
+				{
+					this.OnTurnsChanging(value);
+					this.SendPropertyChanging();
+					this._Turns = value;
+					this.SendPropertyChanged("Turns");
+					this.OnTurnsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NewPrice", DbType="Money")]
+		public System.Nullable<decimal> NewPrice
+		{
+			get
+			{
+				return this._NewPrice;
+			}
+			set
+			{
+				if ((this._NewPrice != value))
+				{
+					this.OnNewPriceChanging(value);
+					this.SendPropertyChanging();
+					this._NewPrice = value;
+					this.SendPropertyChanged("NewPrice");
+					this.OnNewPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LikeNewPrice", DbType="Money")]
+		public System.Nullable<decimal> LikeNewPrice
+		{
+			get
+			{
+				return this._LikeNewPrice;
+			}
+			set
+			{
+				if ((this._LikeNewPrice != value))
+				{
+					this.OnLikeNewPriceChanging(value);
+					this.SendPropertyChanging();
+					this._LikeNewPrice = value;
+					this.SendPropertyChanged("LikeNewPrice");
+					this.OnLikeNewPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VeryGoodPrice", DbType="Money")]
+		public System.Nullable<decimal> VeryGoodPrice
+		{
+			get
+			{
+				return this._VeryGoodPrice;
+			}
+			set
+			{
+				if ((this._VeryGoodPrice != value))
+				{
+					this.OnVeryGoodPriceChanging(value);
+					this.SendPropertyChanging();
+					this._VeryGoodPrice = value;
+					this.SendPropertyChanged("VeryGoodPrice");
+					this.OnVeryGoodPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GoodPrice", DbType="Money")]
+		public System.Nullable<decimal> GoodPrice
+		{
+			get
+			{
+				return this._GoodPrice;
+			}
+			set
+			{
+				if ((this._GoodPrice != value))
+				{
+					this.OnGoodPriceChanging(value);
+					this.SendPropertyChanging();
+					this._GoodPrice = value;
+					this.SendPropertyChanged("GoodPrice");
+					this.OnGoodPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AcceptablePrice", DbType="Money")]
+		public System.Nullable<decimal> AcceptablePrice
+		{
+			get
+			{
+				return this._AcceptablePrice;
+			}
+			set
+			{
+				if ((this._AcceptablePrice != value))
+				{
+					this.OnAcceptablePriceChanging(value);
+					this.SendPropertyChanging();
+					this._AcceptablePrice = value;
+					this.SendPropertyChanged("AcceptablePrice");
+					this.OnAcceptablePriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(455) NOT NULL", CanBeNull=false)]
+		public string Image
+		{
+			get
+			{
+				return this._Image;
+			}
+			set
+			{
+				if ((this._Image != value))
+				{
+					this.OnImageChanging(value);
+					this.SendPropertyChanging();
+					this._Image = value;
+					this.SendPropertyChanged("Image");
+					this.OnImageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Affiliate", DbType="Int NOT NULL")]
+		public int Affiliate
+		{
+			get
+			{
+				return this._Affiliate;
+			}
+			set
+			{
+				if ((this._Affiliate != value))
+				{
+					if (this._Affiliate1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAffiliateChanging(value);
+					this.SendPropertyChanging();
+					this._Affiliate = value;
+					this.SendPropertyChanged("Affiliate");
+					this.OnAffiliateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AffiliateOffer", DbType="Money NOT NULL")]
+		public decimal AffiliateOffer
+		{
+			get
+			{
+				return this._AffiliateOffer;
+			}
+			set
+			{
+				if ((this._AffiliateOffer != value))
+				{
+					this.OnAffiliateOfferChanging(value);
+					this.SendPropertyChanging();
+					this._AffiliateOffer = value;
+					this.SendPropertyChanged("AffiliateOffer");
+					this.OnAffiliateOfferChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OverStocked", DbType="Bit NOT NULL")]
+		public bool OverStocked
+		{
+			get
+			{
+				return this._OverStocked;
+			}
+			set
+			{
+				if ((this._OverStocked != value))
+				{
+					this.OnOverStockedChanging(value);
+					this.SendPropertyChanging();
+					this._OverStocked = value;
+					this.SendPropertyChanged("OverStocked");
+					this.OnOverStockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_List", DbType="Int NOT NULL")]
+		public int List
+		{
+			get
+			{
+				return this._List;
+			}
+			set
+			{
+				if ((this._List != value))
+				{
+					this.OnListChanging(value);
+					this.SendPropertyChanging();
+					this._List = value;
+					this.SendPropertyChanged("List");
+					this.OnListChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemReceived", DbType="Bit NOT NULL")]
+		public bool ItemReceived
+		{
+			get
+			{
+				return this._ItemReceived;
+			}
+			set
+			{
+				if ((this._ItemReceived != value))
+				{
+					this.OnItemReceivedChanging(value);
+					this.SendPropertyChanging();
+					this._ItemReceived = value;
+					this.SendPropertyChanged("ItemReceived");
+					this.OnItemReceivedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceivedCondition", DbType="Int")]
+		public System.Nullable<int> ReceivedCondition
+		{
+			get
+			{
+				return this._ReceivedCondition;
+			}
+			set
+			{
+				if ((this._ReceivedCondition != value))
+				{
+					if (this._TradeCondition.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnReceivedConditionChanging(value);
+					this.SendPropertyChanging();
+					this._ReceivedCondition = value;
+					this.SendPropertyChanged("ReceivedCondition");
+					this.OnReceivedConditionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceivedQuantity", DbType="Int")]
+		public System.Nullable<int> ReceivedQuantity
+		{
+			get
+			{
+				return this._ReceivedQuantity;
+			}
+			set
+			{
+				if ((this._ReceivedQuantity != value))
+				{
+					this.OnReceivedQuantityChanging(value);
+					this.SendPropertyChanging();
+					this._ReceivedQuantity = value;
+					this.SendPropertyChanged("ReceivedQuantity");
+					this.OnReceivedQuantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceivedOffer", DbType="Money")]
+		public System.Nullable<decimal> ReceivedOffer
+		{
+			get
+			{
+				return this._ReceivedOffer;
+			}
+			set
+			{
+				if ((this._ReceivedOffer != value))
+				{
+					this.OnReceivedOfferChanging(value);
+					this.SendPropertyChanging();
+					this._ReceivedOffer = value;
+					this.SendPropertyChanged("ReceivedOffer");
+					this.OnReceivedOfferChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(150) NOT NULL", CanBeNull=false)]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ListPrice", DbType="Money")]
+		public System.Nullable<decimal> ListPrice
+		{
+			get
+			{
+				return this._ListPrice;
+			}
+			set
+			{
+				if ((this._ListPrice != value))
+				{
+					this.OnListPriceChanging(value);
+					this.SendPropertyChanging();
+					this._ListPrice = value;
+					this.SendPropertyChanged("ListPrice");
+					this.OnListPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FBAGoodPrice", DbType="Money")]
+		public System.Nullable<decimal> FBAGoodPrice
+		{
+			get
+			{
+				return this._FBAGoodPrice;
+			}
+			set
+			{
+				if ((this._FBAGoodPrice != value))
+				{
+					this.OnFBAGoodPriceChanging(value);
+					this.SendPropertyChanging();
+					this._FBAGoodPrice = value;
+					this.SendPropertyChanged("FBAGoodPrice");
+					this.OnFBAGoodPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FBALikeNewPrice", DbType="Money")]
+		public System.Nullable<decimal> FBALikeNewPrice
+		{
+			get
+			{
+				return this._FBALikeNewPrice;
+			}
+			set
+			{
+				if ((this._FBALikeNewPrice != value))
+				{
+					this.OnFBALikeNewPriceChanging(value);
+					this.SendPropertyChanging();
+					this._FBALikeNewPrice = value;
+					this.SendPropertyChanged("FBALikeNewPrice");
+					this.OnFBALikeNewPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FBAVeryGoodPrice", DbType="Money")]
+		public System.Nullable<decimal> FBAVeryGoodPrice
+		{
+			get
+			{
+				return this._FBAVeryGoodPrice;
+			}
+			set
+			{
+				if ((this._FBAVeryGoodPrice != value))
+				{
+					this.OnFBAVeryGoodPriceChanging(value);
+					this.SendPropertyChanging();
+					this._FBAVeryGoodPrice = value;
+					this.SendPropertyChanged("FBAVeryGoodPrice");
+					this.OnFBAVeryGoodPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FBANewPrice", DbType="Money")]
+		public System.Nullable<decimal> FBANewPrice
+		{
+			get
+			{
+				return this._FBANewPrice;
+			}
+			set
+			{
+				if ((this._FBANewPrice != value))
+				{
+					this.OnFBANewPriceChanging(value);
+					this.SendPropertyChanging();
+					this._FBANewPrice = value;
+					this.SendPropertyChanged("FBANewPrice");
+					this.OnFBANewPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ASIN", DbType="NVarChar(50)")]
+		public string ASIN
+		{
+			get
+			{
+				return this._ASIN;
+			}
+			set
+			{
+				if ((this._ASIN != value))
+				{
+					this.OnASINChanging(value);
+					this.SendPropertyChanging();
+					this._ASIN = value;
+					this.SendPropertyChanged("ASIN");
+					this.OnASINChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobileScan", DbType="Int NOT NULL")]
+		public int MobileScan
+		{
+			get
+			{
+				return this._MobileScan;
+			}
+			set
+			{
+				if ((this._MobileScan != value))
+				{
+					if (this._TradeApp.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMobileScanChanging(value);
+					this.SendPropertyChanging();
+					this._MobileScan = value;
+					this.SendPropertyChanged("MobileScan");
+					this.OnMobileScanChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AmazonTradeInPrice", DbType="Money")]
+		public System.Nullable<decimal> AmazonTradeInPrice
+		{
+			get
+			{
+				return this._AmazonTradeInPrice;
+			}
+			set
+			{
+				if ((this._AmazonTradeInPrice != value))
+				{
+					this.OnAmazonTradeInPriceChanging(value);
+					this.SendPropertyChanging();
+					this._AmazonTradeInPrice = value;
+					this.SendPropertyChanged("AmazonTradeInPrice");
+					this.OnAmazonTradeInPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCategory_TradeProduct", Storage="_TradeCategory", ThisKey="Category", OtherKey="ID", IsForeignKey=true)]
+		public TradeCategory TradeCategory
+		{
+			get
+			{
+				return this._TradeCategory.Entity;
+			}
+			set
+			{
+				TradeCategory previousValue = this._TradeCategory.Entity;
+				if (((previousValue != value) 
+							|| (this._TradeCategory.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TradeCategory.Entity = null;
+						previousValue.TradeProducts.Remove(this);
+					}
+					this._TradeCategory.Entity = value;
+					if ((value != null))
+					{
+						value.TradeProducts.Add(this);
+						this._Category = value.ID;
+					}
+					else
+					{
+						this._Category = default(int);
+					}
+					this.SendPropertyChanged("TradeCategory");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeProduct", Storage="_Affiliate1", ThisKey="Affiliate", OtherKey="ID", IsForeignKey=true)]
+		public Affiliate Affiliate1
+		{
+			get
+			{
+				return this._Affiliate1.Entity;
+			}
+			set
+			{
+				Affiliate previousValue = this._Affiliate1.Entity;
+				if (((previousValue != value) 
+							|| (this._Affiliate1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Affiliate1.Entity = null;
+						previousValue.TradeProducts.Remove(this);
+					}
+					this._Affiliate1.Entity = value;
+					if ((value != null))
+					{
+						value.TradeProducts.Add(this);
+						this._Affiliate = value.ID;
+					}
+					else
+					{
+						this._Affiliate = default(int);
+					}
+					this.SendPropertyChanged("Affiliate1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCondition_TradeProduct", Storage="_TradeCondition", ThisKey="ReceivedCondition", OtherKey="ID", IsForeignKey=true)]
+		public TradeCondition TradeCondition
+		{
+			get
+			{
+				return this._TradeCondition.Entity;
+			}
+			set
+			{
+				TradeCondition previousValue = this._TradeCondition.Entity;
+				if (((previousValue != value) 
+							|| (this._TradeCondition.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TradeCondition.Entity = null;
+						previousValue.TradeProducts.Remove(this);
+					}
+					this._TradeCondition.Entity = value;
+					if ((value != null))
+					{
+						value.TradeProducts.Add(this);
+						this._ReceivedCondition = value.ID;
+					}
+					else
+					{
+						this._ReceivedCondition = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TradeCondition");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CodeType_TradeProduct", Storage="_CodeType1", ThisKey="CodeType", OtherKey="ID", IsForeignKey=true)]
+		public CodeType CodeType1
+		{
+			get
+			{
+				return this._CodeType1.Entity;
+			}
+			set
+			{
+				CodeType previousValue = this._CodeType1.Entity;
+				if (((previousValue != value) 
+							|| (this._CodeType1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._CodeType1.Entity = null;
+						previousValue.TradeProducts.Remove(this);
+					}
+					this._CodeType1.Entity = value;
+					if ((value != null))
+					{
+						value.TradeProducts.Add(this);
+						this._CodeType = value.ID;
+					}
+					else
+					{
+						this._CodeType = default(int);
+					}
+					this.SendPropertyChanged("CodeType1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeApp_TradeProduct", Storage="_TradeApp", ThisKey="MobileScan", OtherKey="ID", IsForeignKey=true)]
+		public TradeApp TradeApp
+		{
+			get
+			{
+				return this._TradeApp.Entity;
+			}
+			set
+			{
+				TradeApp previousValue = this._TradeApp.Entity;
+				if (((previousValue != value) 
+							|| (this._TradeApp.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TradeApp.Entity = null;
+						previousValue.TradeProducts.Remove(this);
+					}
+					this._TradeApp.Entity = value;
+					if ((value != null))
+					{
+						value.TradeProducts.Add(this);
+						this._MobileScan = value.ID;
+					}
+					else
+					{
+						this._MobileScan = default(int);
+					}
+					this.SendPropertyChanged("TradeApp");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TradeTurns")]
+	public partial class TradeTurn : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _MinSalesRank;
+		
+		private int _MaxSalesRank;
+		
+		private int _Turns;
+		
+		private int _Affiliate;
+		
+		private System.Nullable<int> _Category;
+		
+		private EntityRef<Affiliate> _Affiliate1;
+		
+		private EntityRef<TradeCategory> _TradeCategory;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnMinSalesRankChanging(int value);
+    partial void OnMinSalesRankChanged();
+    partial void OnMaxSalesRankChanging(int value);
+    partial void OnMaxSalesRankChanged();
+    partial void OnTurnsChanging(int value);
+    partial void OnTurnsChanged();
+    partial void OnAffiliateChanging(int value);
+    partial void OnAffiliateChanged();
+    partial void OnCategoryChanging(System.Nullable<int> value);
+    partial void OnCategoryChanged();
+    #endregion
+		
+		public TradeTurn()
+		{
+			this._Affiliate1 = default(EntityRef<Affiliate>);
+			this._TradeCategory = default(EntityRef<TradeCategory>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinSalesRank", DbType="Int NOT NULL")]
+		public int MinSalesRank
+		{
+			get
+			{
+				return this._MinSalesRank;
+			}
+			set
+			{
+				if ((this._MinSalesRank != value))
+				{
+					this.OnMinSalesRankChanging(value);
+					this.SendPropertyChanging();
+					this._MinSalesRank = value;
+					this.SendPropertyChanged("MinSalesRank");
+					this.OnMinSalesRankChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxSalesRank", DbType="Int NOT NULL")]
+		public int MaxSalesRank
+		{
+			get
+			{
+				return this._MaxSalesRank;
+			}
+			set
+			{
+				if ((this._MaxSalesRank != value))
+				{
+					this.OnMaxSalesRankChanging(value);
+					this.SendPropertyChanging();
+					this._MaxSalesRank = value;
+					this.SendPropertyChanged("MaxSalesRank");
+					this.OnMaxSalesRankChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Turns", DbType="Int NOT NULL")]
+		public int Turns
+		{
+			get
+			{
+				return this._Turns;
+			}
+			set
+			{
+				if ((this._Turns != value))
+				{
+					this.OnTurnsChanging(value);
+					this.SendPropertyChanging();
+					this._Turns = value;
+					this.SendPropertyChanged("Turns");
+					this.OnTurnsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Affiliate", DbType="Int NOT NULL")]
+		public int Affiliate
+		{
+			get
+			{
+				return this._Affiliate;
+			}
+			set
+			{
+				if ((this._Affiliate != value))
+				{
+					if (this._Affiliate1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAffiliateChanging(value);
+					this.SendPropertyChanging();
+					this._Affiliate = value;
+					this.SendPropertyChanged("Affiliate");
+					this.OnAffiliateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Category", DbType="Int")]
+		public System.Nullable<int> Category
+		{
+			get
+			{
+				return this._Category;
+			}
+			set
+			{
+				if ((this._Category != value))
+				{
+					if (this._TradeCategory.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._Category = value;
+					this.SendPropertyChanged("Category");
+					this.OnCategoryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeTurn", Storage="_Affiliate1", ThisKey="Affiliate", OtherKey="ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Affiliate Affiliate1
+		{
+			get
+			{
+				return this._Affiliate1.Entity;
+			}
+			set
+			{
+				Affiliate previousValue = this._Affiliate1.Entity;
+				if (((previousValue != value) 
+							|| (this._Affiliate1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Affiliate1.Entity = null;
+						previousValue.TradeTurns.Remove(this);
+					}
+					this._Affiliate1.Entity = value;
+					if ((value != null))
+					{
+						value.TradeTurns.Add(this);
+						this._Affiliate = value.ID;
+					}
+					else
+					{
+						this._Affiliate = default(int);
+					}
+					this.SendPropertyChanged("Affiliate1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCategory_TradeTurn", Storage="_TradeCategory", ThisKey="Category", OtherKey="ID", IsForeignKey=true)]
+		public TradeCategory TradeCategory
+		{
+			get
+			{
+				return this._TradeCategory.Entity;
+			}
+			set
+			{
+				TradeCategory previousValue = this._TradeCategory.Entity;
+				if (((previousValue != value) 
+							|| (this._TradeCategory.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TradeCategory.Entity = null;
+						previousValue.TradeTurns.Remove(this);
+					}
+					this._TradeCategory.Entity = value;
+					if ((value != null))
+					{
+						value.TradeTurns.Add(this);
+						this._Category = value.ID;
+					}
+					else
+					{
+						this._Category = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TradeCategory");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TradeApps")]
+	public partial class TradeApp : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _Affiliate;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private bool _Default;
+		
+		private EntitySet<TradeProduct> _TradeProducts;
+		
+		private EntityRef<Affiliate> _Affiliate1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnAffiliateChanging(int value);
+    partial void OnAffiliateChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnDefaultChanging(bool value);
+    partial void OnDefaultChanged();
+    #endregion
+		
+		public TradeApp()
+		{
+			this._TradeProducts = new EntitySet<TradeProduct>(new Action<TradeProduct>(this.attach_TradeProducts), new Action<TradeProduct>(this.detach_TradeProducts));
+			this._Affiliate1 = default(EntityRef<Affiliate>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Affiliate", DbType="Int NOT NULL")]
+		public int Affiliate
+		{
+			get
+			{
+				return this._Affiliate;
+			}
+			set
+			{
+				if ((this._Affiliate != value))
+				{
+					if (this._Affiliate1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAffiliateChanging(value);
+					this.SendPropertyChanging();
+					this._Affiliate = value;
+					this.SendPropertyChanged("Affiliate");
+					this.OnAffiliateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(55) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Default]", Storage="_Default", DbType="Bit NOT NULL")]
+		public bool Default
+		{
+			get
+			{
+				return this._Default;
+			}
+			set
+			{
+				if ((this._Default != value))
+				{
+					this.OnDefaultChanging(value);
+					this.SendPropertyChanging();
+					this._Default = value;
+					this.SendPropertyChanged("Default");
+					this.OnDefaultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeApp_TradeProduct", Storage="_TradeProducts", ThisKey="ID", OtherKey="MobileScan")]
+		public EntitySet<TradeProduct> TradeProducts
+		{
+			get
+			{
+				return this._TradeProducts;
+			}
+			set
+			{
+				this._TradeProducts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Affiliate_TradeApp", Storage="_Affiliate1", ThisKey="Affiliate", OtherKey="ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Affiliate Affiliate1
+		{
+			get
+			{
+				return this._Affiliate1.Entity;
+			}
+			set
+			{
+				Affiliate previousValue = this._Affiliate1.Entity;
+				if (((previousValue != value) 
+							|| (this._Affiliate1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Affiliate1.Entity = null;
+						previousValue.TradeApps.Remove(this);
+					}
+					this._Affiliate1.Entity = value;
+					if ((value != null))
+					{
+						value.TradeApps.Add(this);
+						this._Affiliate = value.ID;
+					}
+					else
+					{
+						this._Affiliate = default(int);
+					}
+					this.SendPropertyChanged("Affiliate1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeApp = this;
+		}
+		
+		private void detach_TradeProducts(TradeProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.TradeApp = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AmazonCategories")]
+	public partial class AmazonCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private EntitySet<AmazonToTradeCategory> _AmazonToTradeCategories;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    #endregion
+		
+		public AmazonCategory()
+		{
+			this._AmazonToTradeCategories = new EntitySet<AmazonToTradeCategory>(new Action<AmazonToTradeCategory>(this.attach_AmazonToTradeCategories), new Action<AmazonToTradeCategory>(this.detach_AmazonToTradeCategories));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AmazonCategory_AmazonToTradeCategory", Storage="_AmazonToTradeCategories", ThisKey="ID", OtherKey="AmazonCat")]
+		public EntitySet<AmazonToTradeCategory> AmazonToTradeCategories
+		{
+			get
+			{
+				return this._AmazonToTradeCategories;
+			}
+			set
+			{
+				this._AmazonToTradeCategories.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_AmazonToTradeCategories(AmazonToTradeCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.AmazonCategory = this;
+		}
+		
+		private void detach_AmazonToTradeCategories(AmazonToTradeCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.AmazonCategory = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AmazonToTradeCategories")]
+	public partial class AmazonToTradeCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _AmazonCat;
+		
+		private int _TradeCat;
+		
+		private EntityRef<AmazonCategory> _AmazonCategory;
+		
+		private EntityRef<TradeCategory> _TradeCategory;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnAmazonCatChanging(int value);
+    partial void OnAmazonCatChanged();
+    partial void OnTradeCatChanging(int value);
+    partial void OnTradeCatChanged();
+    #endregion
+		
+		public AmazonToTradeCategory()
+		{
+			this._AmazonCategory = default(EntityRef<AmazonCategory>);
+			this._TradeCategory = default(EntityRef<TradeCategory>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AmazonCat", DbType="Int NOT NULL")]
+		public int AmazonCat
+		{
+			get
+			{
+				return this._AmazonCat;
+			}
+			set
+			{
+				if ((this._AmazonCat != value))
+				{
+					if (this._AmazonCategory.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAmazonCatChanging(value);
+					this.SendPropertyChanging();
+					this._AmazonCat = value;
+					this.SendPropertyChanged("AmazonCat");
+					this.OnAmazonCatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TradeCat", DbType="Int NOT NULL")]
+		public int TradeCat
+		{
+			get
+			{
+				return this._TradeCat;
+			}
+			set
+			{
+				if ((this._TradeCat != value))
+				{
+					if (this._TradeCategory.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTradeCatChanging(value);
+					this.SendPropertyChanging();
+					this._TradeCat = value;
+					this.SendPropertyChanged("TradeCat");
+					this.OnTradeCatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AmazonCategory_AmazonToTradeCategory", Storage="_AmazonCategory", ThisKey="AmazonCat", OtherKey="ID", IsForeignKey=true)]
+		public AmazonCategory AmazonCategory
+		{
+			get
+			{
+				return this._AmazonCategory.Entity;
+			}
+			set
+			{
+				AmazonCategory previousValue = this._AmazonCategory.Entity;
+				if (((previousValue != value) 
+							|| (this._AmazonCategory.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AmazonCategory.Entity = null;
+						previousValue.AmazonToTradeCategories.Remove(this);
+					}
+					this._AmazonCategory.Entity = value;
+					if ((value != null))
+					{
+						value.AmazonToTradeCategories.Add(this);
+						this._AmazonCat = value.ID;
+					}
+					else
+					{
+						this._AmazonCat = default(int);
+					}
+					this.SendPropertyChanged("AmazonCategory");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TradeCategory_AmazonToTradeCategory", Storage="_TradeCategory", ThisKey="TradeCat", OtherKey="ID", IsForeignKey=true)]
+		public TradeCategory TradeCategory
+		{
+			get
+			{
+				return this._TradeCategory.Entity;
+			}
+			set
+			{
+				TradeCategory previousValue = this._TradeCategory.Entity;
+				if (((previousValue != value) 
+							|| (this._TradeCategory.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TradeCategory.Entity = null;
+						previousValue.AmazonToTradeCategories.Remove(this);
+					}
+					this._TradeCategory.Entity = value;
+					if ((value != null))
+					{
+						value.AmazonToTradeCategories.Add(this);
+						this._TradeCat = value.ID;
+					}
+					else
+					{
+						this._TradeCat = default(int);
+					}
+					this.SendPropertyChanged("TradeCategory");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

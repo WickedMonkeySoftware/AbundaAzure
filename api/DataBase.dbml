@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="abundatrade" Class="DataBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=tcp:uvi8tq1zlh.database.windows.net;Initial Catalog=abundatrade;Persist Security Info=True;User ID=rlanders" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="abundatradeConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=tcp:esbf4g8lrs.database.windows.net,1433;Initial Catalog=abundatrade;Integrated Security=False;User ID=rlanders@esbf4g8lrs;Connect Timeout=30;Encrypt=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="abundatradeConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ApiKeys" Member="ApiKeys">
     <Type Name="ApiKey">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -29,6 +29,138 @@
       <Column Name="SecretKey" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="AccessKey" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Affiliate_ApiKey" Member="ApiKeys" ThisKey="ID" OtherKey="affiliate" Type="ApiKey" />
+      <Association Name="Affiliate_TradeCategory" Member="TradeCategories" ThisKey="ID" OtherKey="Affiliate" Type="TradeCategory" />
+      <Association Name="Affiliate_TradeCondition" Member="TradeConditions" ThisKey="ID" OtherKey="Affiliate" Type="TradeCondition" />
+      <Association Name="Affiliate_TradeProduct" Member="TradeProducts" ThisKey="ID" OtherKey="Affiliate" Type="TradeProduct" />
+      <Association Name="Affiliate_TradeTurn" Member="TradeTurns" ThisKey="ID" OtherKey="Affiliate" Type="TradeTurn" />
+      <Association Name="Affiliate_TradeApp" Member="TradeApps" ThisKey="ID" OtherKey="Affiliate" Type="TradeApp" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CodeTypes" Member="CodeTypes">
+    <Type Name="CodeType">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(15) NOT NULL" CanBeNull="false" />
+      <Association Name="CodeType_TradeProduct" Member="TradeProducts" ThisKey="ID" OtherKey="CodeType" Type="TradeProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TradeCategories" Member="TradeCategories">
+    <Type Name="TradeCategory">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Notes" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Affiliate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DoTurnBasedCalculations" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DoCustomCalculations" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="TradeCategory_TradeProduct" Member="TradeProducts" ThisKey="ID" OtherKey="Category" Type="TradeProduct" />
+      <Association Name="TradeCategory_TradeTurn" Member="TradeTurns" ThisKey="ID" OtherKey="Category" Type="TradeTurn" />
+      <Association Name="TradeCategory_AmazonToTradeCategory" Member="AmazonToTradeCategories" ThisKey="ID" OtherKey="TradeCat" Type="AmazonToTradeCategory" />
+      <Association Name="Affiliate_TradeCategory" Member="Affiliate1" ThisKey="Affiliate" OtherKey="ID" Type="Affiliate" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TradeConditions" Member="TradeConditions">
+    <Type Name="TradeCondition">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Affiliate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MapsToCustomerSide" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MapsToAmazon" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OfferScalar" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isBaseCondition" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="TradeCondition_TradeCondition" Member="TradeConditions" ThisKey="ID" OtherKey="MapsToCustomerSide" Type="TradeCondition" />
+      <Association Name="TradeCondition_TradeProduct" Member="TradeProducts" ThisKey="ID" OtherKey="ReceivedCondition" Type="TradeProduct" />
+      <Association Name="Affiliate_TradeCondition" Member="Affiliate1" ThisKey="Affiliate" OtherKey="ID" Type="Affiliate" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="TradeCondition_TradeCondition" Member="TradeCondition1" ThisKey="MapsToCustomerSide" OtherKey="ID" Type="TradeCondition" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TradeProducts" Member="TradeProducts">
+    <Type Name="TradeProduct">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Category" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BestOffer" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="SalesRank" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Author" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CalculatedOffer" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+      <Column Name="Token" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CodeType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Turns" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NewPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="LikeNewPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="VeryGoodPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="GoodPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="AcceptablePrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(455) NOT NULL" CanBeNull="false" />
+      <Column Name="Affiliate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AffiliateOffer" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="OverStocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="List" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ItemReceived" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ReceivedCondition" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ReceivedQuantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ReceivedOffer" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Note" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="ListPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="FBAGoodPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="FBALikeNewPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="FBAVeryGoodPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="FBANewPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="ASIN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MobileScan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AmazonTradeInPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="TradeCategory_TradeProduct" Member="TradeCategory" ThisKey="Category" OtherKey="ID" Type="TradeCategory" IsForeignKey="true" />
+      <Association Name="Affiliate_TradeProduct" Member="Affiliate1" ThisKey="Affiliate" OtherKey="ID" Type="Affiliate" IsForeignKey="true" />
+      <Association Name="TradeCondition_TradeProduct" Member="TradeCondition" ThisKey="ReceivedCondition" OtherKey="ID" Type="TradeCondition" IsForeignKey="true" />
+      <Association Name="CodeType_TradeProduct" Member="CodeType1" ThisKey="CodeType" OtherKey="ID" Type="CodeType" IsForeignKey="true" />
+      <Association Name="TradeApp_TradeProduct" Member="TradeApp" ThisKey="MobileScan" OtherKey="ID" Type="TradeApp" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TradeTurns" Member="TradeTurns">
+    <Type Name="TradeTurn">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MinSalesRank" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxSalesRank" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Turns" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Affiliate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Category" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Affiliate_TradeTurn" Member="Affiliate1" ThisKey="Affiliate" OtherKey="ID" Type="Affiliate" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="TradeCategory_TradeTurn" Member="TradeCategory" ThisKey="Category" OtherKey="ID" Type="TradeCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TradeApps" Member="TradeApps">
+    <Type Name="TradeApp">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Affiliate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(55) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[Default]" Member="Default" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="TradeApp_TradeProduct" Member="TradeProducts" ThisKey="ID" OtherKey="MobileScan" Type="TradeProduct" />
+      <Association Name="Affiliate_TradeApp" Member="Affiliate1" ThisKey="Affiliate" OtherKey="ID" Type="Affiliate" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AmazonCategories" Member="AmazonCategories">
+    <Type Name="AmazonCategory">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="AmazonCategory_AmazonToTradeCategory" Member="AmazonToTradeCategories" ThisKey="ID" OtherKey="AmazonCat" Type="AmazonToTradeCategory" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AmazonToTradeCategories" Member="AmazonToTradeCategories">
+    <Type Name="AmazonToTradeCategory">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AmazonCat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TradeCat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="AmazonCategory_AmazonToTradeCategory" Member="AmazonCategory" ThisKey="AmazonCat" OtherKey="ID" Type="AmazonCategory" IsForeignKey="true" />
+      <Association Name="TradeCategory_AmazonToTradeCategory" Member="TradeCategory" ThisKey="TradeCat" OtherKey="ID" Type="TradeCategory" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

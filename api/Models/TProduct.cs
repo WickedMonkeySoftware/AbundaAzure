@@ -34,6 +34,9 @@ namespace api.Models
         private string secretKey;
         private string accessKey;
 
+        private string affiliateCode;
+        private string App;
+
         MarketplaceWebServiceProducts.MarketplaceWebServiceProductsClient amz;
 
         /// <summary>
@@ -48,10 +51,12 @@ namespace api.Models
         /// <param name="code">The code to attempt to look up</param>
         /// <param name="qty">The quantity to look up</param>
         /// <param name="force_lookup">Force a refresh lookup (ignore cache)</param>
-        public TProduct(string affiliate, string code, int qty, bool force_lookup = false)
+        public TProduct(string affiliate, string code, int qty, string app, bool force_lookup = false)
         {
             ProductCode = code;
             Qty = qty;
+            App = app;
+            affiliateCode = affiliate;
 
             cloud = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("AbundaStorage"));
 
@@ -92,24 +97,153 @@ namespace api.Models
             //todo: save data in cache
 
             //todo: save data for retrieval in a list
+            var id = SaveItemAsTrade(keepProduct);
 
-            CalculatorView = new
+
+            using (var context = new DataBaseDataContext())
             {
-                currency_for_total="$",
-                id = "0",
-                image = "small",
-                imagem = "medium",
-                imagel = "large",
-                price = amzResults[0].ListPrice,
-                product_code = amzResults[0].Code,
-                quantity = qty,
-                title = amzResults[0].Title,
-                total = amzResults[0].ListPrice * qty,
-                total_qty = qty,
-                row = new List<dynamic>()
-            };
+                var product = context.TradeProducts.Where(x => x.ID == id).FirstOrDefault();
 
-            CalculatorView.row.Add(new { testrow = "data" });
+                CalculatorView = new
+                {
+                    currency_for_total = "$",
+                    id = "0",
+                    image = product.Image,
+                    imagem = product.Image,
+                    imagel = product.Image,
+                    price = product.CalculatedOffer,
+                    product_code = product.Code,
+                    quantity = product.Quantity,
+                    title = product.Title,
+                    total = product.CalculatedOffer * qty,
+                    total_qty = qty,
+                    row = new List<dynamic>()
+                };
+
+                CalculatorView.row.Add(new { testrow = "data" });
+            }
+        }
+
+        public int SaveItemAsTrade(AmazonProduct amz)
+        {
+            using (var context = new DataBaseDataContext())
+            {
+                TradeProduct product = new TradeProduct();
+
+                var aff = (from ev in context.Affiliates
+                           where ev.code == affiliateCode
+                           select ev).FirstOrDefault();
+
+                var Category = (from ev in context.AmazonToTradeCategories
+                                where ev.AmazonCategory.Title == amz.Group && ev.TradeCategory.Deleted == false && ev.TradeCategory.Affiliate1 == aff
+                                select ev).FirstOrDefault();
+
+                if (Category == null)
+                {
+                    throw new Exception("Unwanted Item");
+                }
+
+                product.Affiliate1 = aff;
+                product.AcceptablePrice = CalculateLowest(ref amz, "Used", "Acceptable");
+                product.AmazonTradeInPrice = amz.TradeInValue;
+                //product.AffiliateOffer = 0
+                product.ASIN = amz.ASIN;
+                if (amz.Author != null)
+                {
+                    product.Author = amz.Author;
+                }
+                else if (amz.Director != null)
+                {
+                    product.Author = amz.Director;
+                }
+                else if (amz.Artist != null)
+                {
+                    product.Author = amz.Artist;
+                }
+                else
+                {
+                    product.Author = amz.Manufacturer;
+                }
+
+                var minprice = getMinimumPrice(ref amz);
+                //todo: check min sellers, and set to a fixed price
+                //todo: get cascades
+                //todo: get turns
+                //todo: get shipping credit
+                //todo: get ROI
+                //todo: set commision
+                //todo: calculate margin and offer value
+
+                //product.BestOffer = 0;
+                //product.CalculatedOffer = 0;
+                product.TradeCategory = Category.TradeCategory;
+                product.Code = ProductCode;
+                product.CodeType1 = context.CodeTypes.Where(x => x.Name == CodeType(ProductCode)).FirstOrDefault();
+                product.Date = DateTime.UtcNow;
+                product.FBAGoodPrice = CalculateLowest(ref amz, "Used", "Good", "Amazon");
+                product.FBALikeNewPrice = CalculateLowest(ref amz, "Used", "LikeNew", "Amazon");
+                product.FBANewPrice = CalculateLowest(ref amz, "New", "New", "Amazon");
+                product.FBAVeryGoodPrice = CalculateLowest(ref amz, "Used", "VeryGood");
+                product.GoodPrice = CalculateLowest(ref amz, "Used", "Good");
+                product.Image = amz.Image.AbsoluteUri;
+                product.ItemReceived = false;
+                product.LikeNewPrice = CalculateLowest(ref amz, "Used", "LikeNew");
+                product.ListPrice = amz.ListPrice;
+                product.NewPrice = CalculateLowest(ref amz, "New", "New");
+                product.Note = "";
+                product.OverStocked = false;
+                product.Quantity = Qty;
+                product.SalesRank = (int)amz.SalesRanks[0].Rank;
+                product.Title = amz.Title;
+                product.Token = "";
+                product.TradeApp = context.TradeApps.OrderBy(x => x.Default).Where(x => x.Affiliate1 == aff && (x.Title == App || x.Default == true)).FirstOrDefault();
+                product.TradeCondition = context.TradeConditions.Where(x => x.isBaseCondition == true).FirstOrDefault();
+                product.Turns = 0;
+                product.VeryGoodPrice = CalculateLowest(ref amz, "Used", "VeryGood");
+
+                context.TradeProducts.InsertOnSubmit(product);
+                context.SubmitChanges();
+
+                return product.ID;
+            }
+        }
+
+        public decimal? getMinimumPrice(ref AmazonProduct amz)
+        {
+            List<decimal?> First = new List<decimal?>();
+            List<decimal?> Second = new List<decimal?>();
+            List<decimal?> Third = new List<decimal?>();
+
+            First.Add(CalculateLowest(ref amz, "New", "New", "Merchant"));
+            First.Add(CalculateLowest(ref amz, "Used", "LikeNew", "Merchant"));
+            First.Add(CalculateLowest(ref amz, "Used", "Mint", "Merchant"));
+            First.Add(CalculateLowest(ref amz, "Used", "VeryGood", "Merchant"));
+            Second.Add(CalculateLowest(ref amz, "Used", "Good", "Merchant"));
+            Second.Add(CalculateLowest(ref amz, "Used", "Acceptable", "Merchant"));
+            Third.Add(amz.ListPrice);
+
+            if (First.Count > 2)
+            {
+                return First.Min();
+            }
+
+            if (Second.Count > 2)
+                return Second.Min();
+
+            return amz.ListPrice;
+        }
+
+        public decimal? CalculateLowest(ref AmazonProduct amz, string Condition, string subCondition = "Any", string Fullfillment = "Merchant")
+        {
+            //todo: load rules for this
+
+            var results = amz.LowestOfferListing.Where(x => x.Condition == Condition && (subCondition == "Any" ? true : x.SubCondition == subCondition) && x.Fullfillment == Fullfillment);
+            if (results.Count() == 0)
+            {
+                return new Nullable<decimal>();
+            }
+
+            return results.Min(x => x.Price.ListPrice);
         }
 
         public void PerformLowestOfferListing(ref AmazonProduct product, string condition, bool excludeSelf)
@@ -125,7 +259,10 @@ namespace api.Models
 
             var response = amz.GetLowestOfferListingsForASIN(request);
 
-            product.LowestOfferListing = new List<OfferListing>();
+            if (product.LowestOfferListing == null)
+            {
+                product.LowestOfferListing = new List<OfferListing>();
+            }
 
             if (response.IsSetGetLowestOfferListingsForASINResult())
             {
