@@ -34,6 +34,7 @@
       <Association Name="Affiliate_TradeProduct" Member="TradeProducts" ThisKey="ID" OtherKey="Affiliate" Type="TradeProduct" />
       <Association Name="Affiliate_TradeTurn" Member="TradeTurns" ThisKey="ID" OtherKey="Affiliate" Type="TradeTurn" />
       <Association Name="Affiliate_TradeApp" Member="TradeApps" ThisKey="ID" OtherKey="Affiliate" Type="TradeApp" />
+      <Association Name="Affiliate_AffiliateSetting" Member="AffiliateSettings" ThisKey="ID" OtherKey="affiliate_id" Type="AffiliateSetting" />
     </Type>
   </Table>
   <Table Name="dbo.CodeTypes" Member="CodeTypes">
@@ -161,6 +162,26 @@
       <Column Name="TradeCat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="AmazonCategory_AmazonToTradeCategory" Member="AmazonCategory" ThisKey="AmazonCat" OtherKey="ID" Type="AmazonCategory" IsForeignKey="true" />
       <Association Name="TradeCategory_AmazonToTradeCategory" Member="TradeCategory" ThisKey="TradeCat" OtherKey="ID" Type="TradeCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TradeSettings" Member="TradeSettings">
+    <Type Name="TradeSetting">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[key]" Member="key" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[default]" Member="default" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="TradeSetting_AffiliateSetting" Member="AffiliateSettings" ThisKey="ID" OtherKey="settings_id" Type="AffiliateSetting" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AffiliateSettings" Member="AffiliateSettings">
+    <Type Name="AffiliateSetting">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="affiliate_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="value" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="settings_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Affiliate_AffiliateSetting" Member="Affiliate" ThisKey="affiliate_id" OtherKey="ID" Type="Affiliate" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="TradeSetting_AffiliateSetting" Member="TradeSetting" ThisKey="settings_id" OtherKey="ID" Type="TradeSetting" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -166,13 +166,57 @@ namespace api.Models
                 }
 
                 var minprice = getMinimumPrice(ref amz);
-                //todo: check min sellers, and set to a fixed price
-                //todo: get cascades
-                //todo: get turns
-                //todo: get shipping credit
-                //todo: get ROI
-                //todo: set commision
-                //todo: calculate margin and offer value
+
+                if (Category.TradeCategory.DoTurnBasedCalculations)
+                {
+                    //todo: check min sellers, and set to a fixed price
+                    decimal estimate = minprice.Value;
+                    //get cascades
+                    var cascades = new List<decimal>();
+                    var results = new List<decimal>();
+
+                    for (int i = 1; i <= 7; i++)
+                    {
+                        decimal cascade;
+                        TradeSettingLoader.LoadForAffiliate(aff.ID, "cascade_" + i.ToString(), out cascade);
+                        cascades.Add(cascade);
+                    }
+
+                    //get turns
+                    var turns = (from ev in context.TradeTurns
+                                 where ev.TradeCategory == Category.TradeCategory && ev.MinSalesRank < amz.SalesRanks[0].Rank && amz.SalesRanks[0].Rank <= ev.MaxSalesRank && ev.Affiliate1 == aff
+                                 select ev.Turns).FirstOrDefault();
+
+                    product.Turns = (int)turns;
+                    //get shipping credit
+                    decimal shipping;
+                    TradeSettingLoader.LoadForAffiliate(aff.ID, "shipping_credit", out shipping);
+                    //get min ROI
+                    decimal minroi;
+                    TradeSettingLoader.LoadForAffiliate(aff.ID, "min_roi", out minroi);
+                    //set commision
+                    decimal commissionFlat;
+                    decimal commissionVar;
+                    TradeSettingLoader.LoadForAffiliate(aff.ID, "flat_rate_commission", out commissionFlat);
+                    TradeSettingLoader.LoadForAffiliate(aff.ID, "var_rate_commission", out commissionVar);
+                    //todo: calculate margin and offer value
+
+                    cascades.Reverse();
+
+                    foreach (var cascade in cascades)
+                    {
+                        if (-100 * ((turns * (100 * commissionFlat + 100 * commissionVar * estimate + (cascade - 100) * (shipping + estimate))) / (100 * commissionFlat + 100 * commissionVar * estimate + cascade * (shipping + estimate))) >= minroi)
+                        {
+                            product.CalculatedOffer = (estimate + shipping) * cascade / 100M;
+                        }
+                    }
+
+                    product.CalculatedOffer = Util.RoundUpToNearest(product.CalculatedOffer, 0.50M);
+                }
+                else
+                {
+                    product.Turns = 0;
+                }
 
                 //product.BestOffer = 0;
                 //product.CalculatedOffer = 0;
@@ -198,7 +242,6 @@ namespace api.Models
                 product.Token = "";
                 product.TradeApp = context.TradeApps.OrderBy(x => x.Default).Where(x => x.Affiliate1 == aff && (x.Title == App || x.Default == true)).FirstOrDefault();
                 product.TradeCondition = context.TradeConditions.Where(x => x.isBaseCondition == true).FirstOrDefault();
-                product.Turns = 0;
                 product.VeryGoodPrice = CalculateLowest(ref amz, "Used", "VeryGood");
 
                 context.TradeProducts.InsertOnSubmit(product);
@@ -720,7 +763,10 @@ namespace api.Models
                                                 from i in a.Elements()
                                                 where i.Name == "Amount"
                                                 select i.Value;
-                                    aproduct.ListPrice = decimal.Parse(price.FirstOrDefault());
+                                    if (price.FirstOrDefault() != null)
+                                    {
+                                        aproduct.ListPrice = decimal.Parse(price.FirstOrDefault());
+                                    }
 
                                     var cc = from a in xml.Descendants("ListPrice")
                                              from i in a.Elements()
